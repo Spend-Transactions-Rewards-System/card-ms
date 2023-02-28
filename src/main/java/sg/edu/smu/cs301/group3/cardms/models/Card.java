@@ -1,4 +1,4 @@
-package sg.edu.smu.cs301.group3.cardms.model;
+package sg.edu.smu.cs301.group3.cardms.models;
 
 public class Card {
     private String name;
