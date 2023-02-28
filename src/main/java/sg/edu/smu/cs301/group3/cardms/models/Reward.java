@@ -1,12 +1,18 @@
 package sg.edu.smu.cs301.group3.cardms.models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 import java.util.Date;
 
 @Entity
 public class Reward {
-    private String id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String transactionId;
     private String merchant;
     private int mcc;
@@ -18,7 +24,7 @@ public class Reward {
     private Card cardType;
     private double rewardAmount;
 
-    public Reward(String id, String transactionId, String merchant, int mcc, Currencies currency, double amount, Date transactionDate, String cardId, String cardPan, Card cardType, double rewardAmount){
+    public Reward(Long id, String transactionId, String merchant, int mcc, Currencies currency, double amount, Date transactionDate, String cardId, String cardPan, Card cardType, double rewardAmount){
         this.id = id;
         this.transactionId = transactionId;
         this.merchant = merchant;
@@ -32,11 +38,11 @@ public class Reward {
         this.rewardAmount = rewardAmount;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
