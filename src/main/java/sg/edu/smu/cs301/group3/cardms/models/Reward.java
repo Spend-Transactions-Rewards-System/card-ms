@@ -19,12 +19,12 @@ public class Reward {
     private Date transactionDate;
     private String cardId;
     private String cardPan;
-    private Card cardType;
+//    private Card cardType;
     private Double rewardAmount;
 
     public Reward() {
     }
-    public Reward(Long id, String transactionId, String merchant, int mcc, Currencies currency, double amount, Date transactionDate, String cardId, String cardPan, Card cardType, double rewardAmount){
+    public Reward(Long id, String transactionId, String merchant, int mcc, Currencies currency, double amount, Date transactionDate, String cardId, String cardPan, double rewardAmount){
         this.id = id;
         this.transactionId = transactionId;
         this.merchant = merchant;
@@ -34,7 +34,7 @@ public class Reward {
         this.transactionDate = transactionDate;
         this.cardId = cardId;
         this.cardPan = cardPan;
-        this.cardType = cardType;
+//        this.cardType = cardType;
         this.rewardAmount = rewardAmount;
     }
 
@@ -109,15 +109,6 @@ public class Reward {
     public void setCardPan(String cardPan) {
         this.cardPan = cardPan;
     }
-
-    public Card getCardType() {
-        return cardType;
-    }
-
-    public void setCardType(Card cardType) {
-        this.cardType = cardType;
-    }
-
     public Double getRewardAmount() {
         return rewardAmount;
     }
