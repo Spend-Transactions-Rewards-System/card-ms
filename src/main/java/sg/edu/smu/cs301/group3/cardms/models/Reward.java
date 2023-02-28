@@ -1,9 +1,6 @@
 package sg.edu.smu.cs301.group3.cardms.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Date;
 
@@ -15,15 +12,18 @@ public class Reward {
     private Long id;
     private String transactionId;
     private String merchant;
-    private int mcc;
+    private Integer mcc;
+    @Enumerated(EnumType.STRING)
     private Currencies currency;
-    private double amount;
+    private Double amount;
     private Date transactionDate;
     private String cardId;
     private String cardPan;
     private Card cardType;
-    private double rewardAmount;
+    private Double rewardAmount;
 
+    public Reward() {
+    }
     public Reward(Long id, String transactionId, String merchant, int mcc, Currencies currency, double amount, Date transactionDate, String cardId, String cardPan, Card cardType, double rewardAmount){
         this.id = id;
         this.transactionId = transactionId;
