@@ -1,8 +1,11 @@
 package sg.edu.smu.cs301.group3.cardms.models;
 
+import jakarta.persistence.Entity;
+
 import java.util.Date;
 
-public class Transaction {
+@Entity
+public class Reward {
     private String id;
     private String transactionId;
     private String merchant;
@@ -15,7 +18,7 @@ public class Transaction {
     private Card cardType;
     private double rewardAmount;
 
-    public Transaction(String id, String transactionId, String merchant, int mcc, Currencies currency, double amount, Date transactionDate, String cardId, String cardPan, Card cardType, double rewardAmount){
+    public Reward(String id, String transactionId, String merchant, int mcc, Currencies currency, double amount, Date transactionDate, String cardId, String cardPan, Card cardType, double rewardAmount){
         this.id = id;
         this.transactionId = transactionId;
         this.merchant = merchant;
