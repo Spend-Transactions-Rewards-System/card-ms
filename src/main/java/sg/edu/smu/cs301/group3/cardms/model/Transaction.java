@@ -117,8 +117,3 @@ public class Transaction {
         this.rewardAmount = rewardAmount;
     }
 }
-
-enum Currencies {
-    SGD,
-    USD
-}

@@ -4,7 +4,7 @@ public class Card {
     private String name;
     private RewardType rewardType;
 
-    public Card(String name, RewardType rewardType){
+    public Card(String name, RewardType rewardType) {
         this.name = name;
         this.rewardType = rewardType;
     }
@@ -24,10 +24,5 @@ public class Card {
     public void setRewardType(RewardType rewardType) {
         this.rewardType = rewardType;
     }
-}
 
-enum RewardType{
-    miles,
-    points,
-    cashback
 }
