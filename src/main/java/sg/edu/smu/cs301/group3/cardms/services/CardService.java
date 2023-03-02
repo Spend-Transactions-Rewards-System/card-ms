@@ -1,9 +1,6 @@
-package sg.edu.smu.cs301.group3.cardms.service;
+package sg.edu.smu.cs301.group3.cardms.services;
 
 import org.springframework.http.converter.json.MappingJacksonValue;
-import sg.edu.smu.cs301.group3.cardms.models.Card;
-
-import java.util.List;
 
 public interface CardService {
     MappingJacksonValue getCardsByCustomerId(String customerId);

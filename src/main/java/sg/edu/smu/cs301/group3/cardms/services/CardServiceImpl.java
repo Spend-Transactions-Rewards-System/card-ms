@@ -1,4 +1,4 @@
-package sg.edu.smu.cs301.group3.cardms.service;
+package sg.edu.smu.cs301.group3.cardms.services;
 
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
