@@ -19,11 +19,9 @@ public class Reward {
     private Date transactionDate;
     private String cardId;
     private String cardPan;
-//    private Card cardType;
     private Double rewardAmount;
 
-    public Reward() {
-    }
+    public Reward() {}
     public Reward(Long id, String transactionId, String merchant, int mcc, Currencies currency, double amount, Date transactionDate, String cardId, String cardPan, double rewardAmount){
         this.id = id;
         this.transactionId = transactionId;
@@ -34,7 +32,6 @@ public class Reward {
         this.transactionDate = transactionDate;
         this.cardId = cardId;
         this.cardPan = cardPan;
-//        this.cardType = cardType;
         this.rewardAmount = rewardAmount;
     }
 
