@@ -23,12 +23,20 @@ public class CardSeeder {
     public void insertTestData() {
         logger.info("===========Inserting Card Test Data===========");
 
-        Customer testCustomer1 = new Customer("12345", "test@gmail.com");
-        customerRepository.save(testCustomer1);
-        Card testCard1 = new Card("98765", testCustomer1, "SCIS_PremiumMiles", RewardType.miles);
-        Card testCard2 = new Card("54321", testCustomer1, "SCIS_PlatinumMiles", RewardType.miles);
-        cardRepository.save(testCard1);
-        cardRepository.save(testCard2);
+        Customer testCustomer01 = new Customer("customer02", "tamus@gmail.com");
+        customerRepository.save(testCustomer01);
+        Card testCard01 = new Card("card01", testCustomer01, "SCIS_PremiumMiles", RewardType.miles);
+        Card testCard02 = new Card("card02", testCustomer01, "SCIS_PlatinumMiles", RewardType.miles);
+        cardRepository.save(testCard01);
+        cardRepository.save(testCard02);
+
+
+        Customer testCustomer02 = new Customer("customer02", "kelvin@gmail.com");
+        customerRepository.save(testCustomer02);
+        Card testCard03 = new Card("card03", testCustomer02, "SCIS_PremiumMiles", RewardType.miles);
+        Card testCard04 = new Card("card04", testCustomer02, "SCIS_PlatinumMiles", RewardType.miles);
+        cardRepository.save(testCard03);
+        cardRepository.save(testCard04);
 
         logger.info("===========Test Data Inserted===========");
     }
