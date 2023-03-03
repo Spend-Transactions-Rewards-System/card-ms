@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Set;
 @Builder
 @Entity
@@ -38,5 +39,18 @@ public class Customer implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return customerId.equals(customer.customerId) && email.equals(customer.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(customerId, email);
     }
 }
