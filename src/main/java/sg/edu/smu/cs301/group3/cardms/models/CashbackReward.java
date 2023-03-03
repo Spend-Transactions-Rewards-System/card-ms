@@ -6,7 +6,8 @@ import sg.edu.smu.cs301.group3.cardms.dtos.AddRewardDto;
 import sg.edu.smu.cs301.group3.cardms.repositories.CardRepository;
 import sg.edu.smu.cs301.group3.cardms.repositories.CashbackRewardRepository;
 
-import java.util.Date;
+import java.sql.Date;
+
 
 @Entity
 @Data

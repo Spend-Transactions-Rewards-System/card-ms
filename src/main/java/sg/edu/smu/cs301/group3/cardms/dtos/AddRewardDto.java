@@ -6,7 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import sg.edu.smu.cs301.group3.cardms.models.Currencies;
 
-import java.util.Date;
+import java.sql.Date;
+
 
 @AllArgsConstructor
 @NoArgsConstructor

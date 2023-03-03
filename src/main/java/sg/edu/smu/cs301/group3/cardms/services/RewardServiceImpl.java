@@ -6,12 +6,12 @@ import org.springframework.stereotype.Service;
 import sg.edu.smu.cs301.group3.cardms.dtos.AddRewardDto;
 import sg.edu.smu.cs301.group3.cardms.dtos.RewardDto;
 import sg.edu.smu.cs301.group3.cardms.models.*;
-import sg.edu.smu.cs301.group3.cardms.repositories.CardRepository;
-import sg.edu.smu.cs301.group3.cardms.repositories.CashbackRewardRepository;
-import sg.edu.smu.cs301.group3.cardms.repositories.MilesRewardRepository;
-import sg.edu.smu.cs301.group3.cardms.repositories.PointsRewardRepository;
+import sg.edu.smu.cs301.group3.cardms.repositories.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -23,6 +23,8 @@ public class RewardServiceImpl implements RewardService{
     private final PointsRewardRepository pointsRewardRepository;
 
     private final CashbackRewardRepository cashbackRewardRepository;
+
+    private final CustomerRepository customerRepository;
     @Override
     public RewardDto addEarnedReward(AddRewardDto addRewardDto) {
 
@@ -50,13 +52,62 @@ public class RewardServiceImpl implements RewardService{
     }
 
     @Override
-    public List<RewardDto> getEarnedRewards(String customerId) {
-        return null;
+    public List<RewardDto> getCustomerEarnedRewards(String customerId) {
+
+        //todo: implement customer not found handler
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new EntityNotFoundException());
+
+        List<Reward> rewards = new ArrayList<>();
+
+        customer.getCards().stream().forEach(card -> {
+            if(card.getRewardType().equals(RewardType.miles))
+                rewards.addAll(milesRewardRepository.findAllByCard(card));
+
+            if(card.getRewardType().equals(RewardType.points))
+                rewards.addAll(pointsRewardRepository.findAllByCard(card));
+
+            if(card.getRewardType().equals(RewardType.cashback))
+                rewards.addAll(cashbackRewardRepository.findAllByCard(card));
+        });
+
+        List<RewardDto> result = new ArrayList<>();
+
+        rewards.stream().forEach(reward -> {
+            result.add(new RewardDto(reward));
+        });
+
+        return result;
     }
 
     @Override
-    public RewardDto getEarnedReward(String customerId, String cardType) {
-        return null;
+    public List<RewardDto> getCardEarnedRewards(String customerId, String cardType) {
+
+        //todo: implement customer not found handler
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new EntityNotFoundException());
+
+        Set<Card> cardSet = customer.getCards().stream().filter(card -> card.getCardType().equalsIgnoreCase(cardType)).collect(Collectors.toSet());
+
+        List<Reward> rewards = new ArrayList<>();
+
+        //todo: implement if no card is found handler
+        Card card = cardSet.iterator().next();
+
+        if(card.getRewardType().equals(RewardType.miles))
+            rewards.addAll(milesRewardRepository.findAllByCard(card));
+
+        if(card.getRewardType().equals(RewardType.points))
+            rewards.addAll(pointsRewardRepository.findAllByCard(card));
+
+        if(card.getRewardType().equals(RewardType.cashback))
+            rewards.addAll(cashbackRewardRepository.findAllByCard(card));
+
+        List<RewardDto> result = new ArrayList<>();
+
+        rewards.stream().forEach(reward -> {
+            result.add(new RewardDto(reward));
+        });
+
+        return result;
     }
 
 }
