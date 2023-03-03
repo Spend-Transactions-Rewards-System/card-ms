@@ -18,8 +18,8 @@ public class RewardSeeder {
 
     public void insertTestData() {
         logger.info("===========Inserting Reward Test Data===========");
-        Reward testReward1 = new Reward();
-        rewardRepository.save(testReward1);
+//        Reward testReward1 = new Reward();
+//        rewardRepository.save(testReward1);
 
         logger.info("===========Test Data Inserted===========");
     }

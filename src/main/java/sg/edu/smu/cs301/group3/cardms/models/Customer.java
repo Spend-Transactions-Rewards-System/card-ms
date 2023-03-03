@@ -1,10 +1,16 @@
 package sg.edu.smu.cs301.group3.cardms.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Set;
+@Builder
 @Entity
+@Data
+@AllArgsConstructor
 public class Customer implements Serializable {
     @Id
     private String customerId;
@@ -12,7 +18,7 @@ public class Customer implements Serializable {
     @OneToMany(mappedBy = "customer", fetch= FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Card> cards;
 
-    protected Customer(){}
+    public Customer(){}
     public Customer(String customerId, String email) {
         this.customerId = customerId;
         this.email = email;

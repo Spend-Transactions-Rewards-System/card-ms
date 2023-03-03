@@ -1,9 +1,11 @@
 package sg.edu.smu.cs301.group3.cardms.models;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 
 import java.io.Serializable;
 
+@Builder
 @Entity
 public class Card implements Serializable {
     @Id
@@ -15,7 +17,7 @@ public class Card implements Serializable {
     @Enumerated(EnumType.STRING)
     private RewardType rewardType;
 
-    protected Card(){}
+    public Card(){}
     public Card(String cardId, Customer customer, String cardType, RewardType rewardType) {
         this.cardId = cardId;
         this.customer = customer;
