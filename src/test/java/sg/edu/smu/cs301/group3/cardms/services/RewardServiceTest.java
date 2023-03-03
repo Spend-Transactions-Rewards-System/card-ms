@@ -97,7 +97,7 @@ public class RewardServiceTest {
         lenient().when(cardRepositoryMock.findByCardId("card03")).thenReturn(
                 Optional.of(card03));
 
-        lenient().when(cardRepositoryMock.findByCardId("card03")).thenReturn(
+        lenient().when(cardRepositoryMock.findByCardId("card04")).thenReturn(
                 Optional.of(card04));
 
         lenient().when(customerRepository.findById("customer01")).thenReturn(
@@ -221,7 +221,7 @@ public class RewardServiceTest {
                 12345, Currencies.SGD, 10.0,new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()),
                 20.0, 30.0, 50.0, "TestRemarks");
 
-        when(cashbackRewardRepository.save(any(CashbackReward.class))).thenAnswer(invocationOnMock -> {
+        lenient().when(cashbackRewardRepository.save(any(CashbackReward.class))).thenAnswer(invocationOnMock -> {
             CashbackReward cashbackRewardParam = invocationOnMock.getArgument(0);
             cashbackRewardParam.setId(1L);
             return cashbackRewardParam;
@@ -247,9 +247,9 @@ public class RewardServiceTest {
         List<CashbackReward> cashbackRewardsList = Arrays.asList(RewardStubFactory.CASHBACK_REWARD_01_SGD(cashbackCard03()),
                 RewardStubFactory.CASHBACK_REWARD_02_SGD(cashbackCard03()));
 
-        when(milesRewardRepository.findAllByCard(milesCard01())).thenReturn(milesRewardList);
-        when(pointsRewardRepository.findAllByCard(pointsCard02())).thenReturn(pointsRewardList);
-        when(cashbackRewardRepository.findAllByCard(cashbackCard03())).thenReturn(cashbackRewardsList);
+        lenient().when(milesRewardRepository.findAllByCard(milesCard01())).thenReturn(milesRewardList);
+        lenient().when(pointsRewardRepository.findAllByCard(pointsCard02())).thenReturn(pointsRewardList);
+        lenient().when(cashbackRewardRepository.findAllByCard(cashbackCard03())).thenReturn(cashbackRewardsList);
 
         //act
         List<RewardDto> result = rewardService.getCustomerEarnedRewards("customer01");
@@ -307,9 +307,5 @@ public class RewardServiceTest {
     }
     private Card cashbackCard03() {
         return cardRepositoryMock.findByCardId("card03").get();
-    }
-
-    private Card milesCard04(){
-        return cardRepositoryMock.findByCardId("card04").get();
     }
 }
