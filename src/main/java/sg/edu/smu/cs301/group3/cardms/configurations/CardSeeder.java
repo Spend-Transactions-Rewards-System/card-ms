@@ -23,7 +23,7 @@ public class CardSeeder {
     public void insertTestData() {
         logger.info("===========Inserting Card Test Data===========");
 
-        Customer testCustomer01 = new Customer("customer02", "tamus@gmail.com");
+        Customer testCustomer01 = new Customer("customer01", "tamus@gmail.com");
         customerRepository.save(testCustomer01);
         Card testCard01 = new Card("card01", testCustomer01, "SCIS_PremiumMiles", RewardType.miles);
         Card testCard02 = new Card("card02", testCustomer01, "SCIS_PlatinumMiles", RewardType.miles);

@@ -18,7 +18,7 @@ import java.text.ParseException;
 import java.util.Arrays;
 
 @Configuration
-@DependsOn("CardSeeder")
+@DependsOn("cardSeeder")
 public class RewardSeeder {
 
     private final static Logger logger = LoggerFactory.getLogger(RewardSeeder.class);
