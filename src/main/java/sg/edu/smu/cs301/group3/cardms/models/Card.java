@@ -1,9 +1,13 @@
 package sg.edu.smu.cs301.group3.cardms.models;
 
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Objects;
 
+@Builder
 @Entity
 public class Card implements Serializable {
     @Id
@@ -15,7 +19,7 @@ public class Card implements Serializable {
     @Enumerated(EnumType.STRING)
     private RewardType rewardType;
 
-    protected Card(){}
+    public Card(){}
     public Card(String cardId, Customer customer, String cardType, RewardType rewardType) {
         this.cardId = cardId;
         this.customer = customer;
@@ -55,4 +59,16 @@ public class Card implements Serializable {
         this.rewardType = rewardType;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Card card = (Card) o;
+        return cardId.equals(card.cardId) && customer.equals(card.customer) && cardType.equals(card.cardType) && rewardType == card.rewardType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cardId, customer, cardType, rewardType);
+    }
 }
