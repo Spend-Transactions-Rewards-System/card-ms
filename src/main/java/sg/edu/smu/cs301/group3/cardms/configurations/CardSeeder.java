@@ -3,6 +3,7 @@ package sg.edu.smu.cs301.group3.cardms.configurations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import sg.edu.smu.cs301.group3.cardms.models.Card;
 import sg.edu.smu.cs301.group3.cardms.models.Customer;
 import sg.edu.smu.cs301.group3.cardms.models.RewardType;
@@ -10,6 +11,7 @@ import sg.edu.smu.cs301.group3.cardms.repositories.CardRepository;
 import sg.edu.smu.cs301.group3.cardms.repositories.CustomerRepository;
 
 @Configuration
+@Profile("dev")
 public class CardSeeder {
     private final static Logger logger = LoggerFactory.getLogger(CardSeeder.class);
     private final CardRepository cardRepository;

@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Profile;
 import sg.edu.smu.cs301.group3.cardms.helper.DateHelper;
 import sg.edu.smu.cs301.group3.cardms.models.Card;
 import sg.edu.smu.cs301.group3.cardms.models.Currencies;
@@ -19,6 +20,7 @@ import java.util.Arrays;
 
 @Configuration
 @DependsOn("cardSeeder")
+@Profile("dev")
 public class RewardSeeder {
 
     private final static Logger logger = LoggerFactory.getLogger(RewardSeeder.class);
