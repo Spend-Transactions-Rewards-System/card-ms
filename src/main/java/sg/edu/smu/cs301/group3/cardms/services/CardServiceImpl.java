@@ -6,11 +6,13 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.stereotype.Service;
+import sg.edu.smu.cs301.group3.cardms.dtos.CardDto;
 import sg.edu.smu.cs301.group3.cardms.models.Card;
 import sg.edu.smu.cs301.group3.cardms.models.Customer;
 import sg.edu.smu.cs301.group3.cardms.repositories.CardRepository;
 import sg.edu.smu.cs301.group3.cardms.repositories.CustomerRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,17 +23,15 @@ public class CardServiceImpl implements CardService{
     @Autowired
     private CustomerRepository customerRepository;
 
-    public MappingJacksonValue getCardsByCustomerId(String customerId){
+    public List<CardDto> getCardsByCustomerId(String customerId){
         Optional<Customer> customer = customerRepository.findById(customerId);
         if (customer.isPresent()){
-            SimpleBeanPropertyFilter simpleBeanPropertyFilter = SimpleBeanPropertyFilter.serializeAllExcept("cardId");
-            FilterProvider filterProvider = new SimpleFilterProvider().addFilter("cardFilter", simpleBeanPropertyFilter);
-
             List<Card> cards = cardRepository.findAllByCustomer(customer.get());
-
-            MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(cards);
-            mappingJacksonValue.setFilters(filterProvider);
-            return mappingJacksonValue;
+            List<CardDto> result = new ArrayList<>();
+            cards.stream().forEach(card -> {
+                result.add(new CardDto(card));
+            });
+            return result;
         } else {
             throw new NullPointerException("Customer not found");
         }
