@@ -124,7 +124,7 @@ public class RewardServiceTest {
                 .rewardBonusAmount(20.0)
                 .remarks("TestRemarks").build();
 
-        MilesReward expectedMilesReward = new MilesReward(1L,
+        MilesReward expectedMilesReward = new MilesReward("scis",1L,
                 "trans01",  new Card().builder()
                 .cardId("card01")
                 .customer(new Customer().builder()
@@ -166,7 +166,7 @@ public class RewardServiceTest {
                 .rewardBonusAmount(20.0)
                 .remarks("TestRemarks").build();
 
-        PointsReward expectedPointsReward = new PointsReward(1L,
+        PointsReward expectedPointsReward = new PointsReward("scis",1L,
                 "trans01",  new Card().builder()
                 .cardId("card02")
                 .customer(new Customer().builder()
@@ -209,7 +209,7 @@ public class RewardServiceTest {
                 .rewardBonusAmount(20.0)
                 .remarks("TestRemarks").build();
 
-        CashbackReward expectedCashbackReward = new CashbackReward(1L,
+        CashbackReward expectedCashbackReward = new CashbackReward("scis",1L,
                 "trans01",  new Card().builder()
                 .cardId("card03")
                 .customer(new Customer().builder()
