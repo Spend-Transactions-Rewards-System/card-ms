@@ -11,7 +11,7 @@ import sg.edu.smu.cs301.group3.cardms.services.CardServiceImpl;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/card")
+@RequestMapping("/api/v1/card/cards")
 public class CardController {
     @Autowired
     CardServiceImpl cardService;
