@@ -13,6 +13,8 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 public class Customer implements Serializable {
+
+    private String tenant;
     @Id
     private String customerId;
     private String email;
@@ -20,11 +22,19 @@ public class Customer implements Serializable {
     private Set<Card> cards;
 
     public Customer(){}
-    public Customer(String customerId, String email) {
+    public Customer(String tenant, String customerId, String email) {
+        this.tenant = tenant;
         this.customerId = customerId;
         this.email = email;
     }
 
+    public String getTenant() {
+        return tenant;
+    }
+
+    public void setTenant(String tenant) {
+        this.tenant = tenant;
+    }
     public String getCustomerId() {
         return customerId;
     }
