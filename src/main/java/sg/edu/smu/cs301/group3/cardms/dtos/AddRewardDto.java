@@ -35,5 +35,4 @@ public class AddRewardDto {
 
     private String remarks;
 
-    private Double rewardBonusAmount; //todo: review to remove
 }

@@ -44,8 +44,6 @@ public abstract class Reward {
 
     private Double rewardAmount;
 
-    private Double rewardBonusAmount;
-
     private Double balance;
 
     private String remarks;

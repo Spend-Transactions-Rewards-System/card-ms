@@ -14,13 +14,13 @@ import java.sql.Date;
 public class PointsReward extends Reward {
 
 
-    public PointsReward(String tenant, Long id, String transactionId, Card card, String merchant, Integer mcc, Currencies currency, Double amount, Date transactionDate, Double rewardAmount, Double rewardBonusAmount, Double balance, String remarks) {
-        super(tenant, id, transactionId, card, merchant, mcc, currency, amount, transactionDate, rewardAmount, rewardBonusAmount, balance, remarks );
+    public PointsReward(String tenant, Long id, String transactionId, Card card, String merchant, Integer mcc, Currencies currency, Double amount, Date transactionDate, Double rewardAmount, Double balance, String remarks) {
+        super(tenant, id, transactionId, card, merchant, mcc, currency, amount, transactionDate, rewardAmount, balance, remarks );
     }
 
     public PointsReward(AddRewardDto addRewardDto, CardRepository cardRepository) {
         this(addRewardDto.getTenant(), null, addRewardDto.getTransactionId(), null, addRewardDto.getMerchant(), addRewardDto.getMcc(), addRewardDto.getCurrency(), addRewardDto.getAmount(),
-                addRewardDto.getTransactionDate(), addRewardDto.getRewardAmount(), addRewardDto.getRewardBonusAmount(), 0.0, addRewardDto.getRemarks());
+                addRewardDto.getTransactionDate(), addRewardDto.getRewardAmount(), 0.0, addRewardDto.getRemarks());
 
         Card card = cardRepository.findByCardId(addRewardDto.getCardId()).get();
 
