@@ -27,16 +27,16 @@ public class CardSeeder {
 
         Customer testCustomer01 = new Customer("customer01", "tamus@gmail.com");
         customerRepository.save(testCustomer01);
-        Card testCard01 = new Card("card01", testCustomer01, "SCIS_PremiumMiles", RewardType.miles);
-        Card testCard02 = new Card("card02", testCustomer01, "SCIS_PlatinumMiles", RewardType.miles);
+        Card testCard01 = new Card( "card01", testCustomer01, "SCIS_PremiumMiles", RewardType.miles, "scis");
+        Card testCard02 = new Card("card02", testCustomer01, "SCIS_PlatinumMiles", RewardType.miles, "scis");
         cardRepository.save(testCard01);
         cardRepository.save(testCard02);
 
 
         Customer testCustomer02 = new Customer("customer02", "kelvin@gmail.com");
         customerRepository.save(testCustomer02);
-        Card testCard03 = new Card("card03", testCustomer02, "SCIS_PremiumMiles", RewardType.miles);
-        Card testCard04 = new Card("card04", testCustomer02, "SCIS_PlatinumMiles", RewardType.miles);
+        Card testCard03 = new Card("card03", testCustomer02, "SCIS_PremiumMiles", RewardType.miles, "scis");
+        Card testCard04 = new Card("card04", testCustomer02, "SCIS_PlatinumMiles", RewardType.miles, "scis");
         cardRepository.save(testCard03);
         cardRepository.save(testCard04);
 
