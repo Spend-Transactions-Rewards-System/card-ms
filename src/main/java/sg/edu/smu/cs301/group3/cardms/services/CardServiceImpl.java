@@ -19,7 +19,7 @@ public class CardServiceImpl implements CardService{
     @Autowired
     private CustomerRepository customerRepository;
 
-    public List<CardDto> getCardsByCustomerId(String customerId){
+    public List<CardDto> getCardsByCustomerId(String tenant, String customerId){
         Optional<Customer> customer = customerRepository.findById(customerId);
         if (customer.isPresent()){
             List<Card> cards = cardRepository.findAllByCustomer(customer.get());

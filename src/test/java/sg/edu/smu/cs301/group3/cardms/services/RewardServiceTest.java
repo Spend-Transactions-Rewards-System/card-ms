@@ -252,7 +252,7 @@ public class RewardServiceTest {
         lenient().when(cashbackRewardRepository.findAllByCard(cashbackCard03())).thenReturn(cashbackRewardsList);
 
         //act
-        List<RewardDto> result = rewardService.getCustomerEarnedRewards("customer01");
+        List<RewardDto> result = rewardService.getCustomerEarnedRewards("scis", "customer01");
 
 
         //assert
@@ -292,7 +292,7 @@ public class RewardServiceTest {
         lenient().when(milesRewardRepository.findAllByCard(card04)).thenReturn(Arrays.asList(RewardStubFactory.MILES_REWARD_02_SGD(card04)));
 
         //act
-        List<RewardDto> result = rewardService.getCardEarnedRewards("customer01", "scis_platinummiles");
+        List<RewardDto> result = rewardService.getCardEarnedRewards("scis", "customer01", "scis_platinummiles");
 
         //assert
         assertThat(result.size()).isEqualTo(1);

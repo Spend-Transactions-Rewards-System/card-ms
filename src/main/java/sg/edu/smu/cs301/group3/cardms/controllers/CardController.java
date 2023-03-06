@@ -16,9 +16,9 @@ public class CardController {
     @Autowired
     CardServiceImpl cardService;
     @CrossOrigin(origins = "*")
-    @GetMapping("/{customerId}")
-    public ResponseEntity<List<CardDto>> getCardByCustomerId(@PathVariable String customerId) {
-        List<CardDto> response = cardService.getCardsByCustomerId(customerId);
+    @GetMapping("/{tenant}/{customerId}")
+    public ResponseEntity<List<CardDto>> getCardByCustomerId(@PathVariable("tenant") String tenant, @PathVariable String customerId) {
+        List<CardDto> response = cardService.getCardsByCustomerId(tenant, customerId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

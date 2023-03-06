@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface RewardService {
     RewardDto addEarnedReward(AddRewardDto addRewardDto);
-    List<RewardDto> getCustomerEarnedRewards(String customerId);
-    List<RewardDto> getCardEarnedRewards(String customerId, String cardType);
+    List<RewardDto> getCustomerEarnedRewards(String tenant, String customerId);
+    List<RewardDto> getCardEarnedRewards(String tenant, String customerId, String cardType);
 }
