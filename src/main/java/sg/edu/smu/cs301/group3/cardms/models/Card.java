@@ -19,9 +19,12 @@ public class Card implements Serializable {
     @Enumerated(EnumType.STRING)
     private RewardType rewardType;
 
+    private String tenant;
+
     public Card(){}
-    public Card(String cardId, Customer customer, String cardType, RewardType rewardType) {
+    public Card(String cardId, Customer customer, String cardType, RewardType rewardType, String tenant) {
         this.cardId = cardId;
+        this.tenant = tenant;
         this.customer = customer;
         this.cardType = cardType;
         this.rewardType = rewardType;
@@ -59,16 +62,24 @@ public class Card implements Serializable {
         this.rewardType = rewardType;
     }
 
+    public String getTenant() {
+        return tenant;
+    }
+
+    public void setTenant(String tenant) {
+        this.tenant = tenant;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Card card = (Card) o;
-        return cardId.equals(card.cardId) && customer.equals(card.customer) && cardType.equals(card.cardType) && rewardType == card.rewardType;
+        return Objects.equals(cardId, card.cardId) && Objects.equals(customer, card.customer) && Objects.equals(cardType, card.cardType) && rewardType == card.rewardType && Objects.equals(tenant, card.tenant);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cardId, customer, cardType, rewardType);
+        return Objects.hash(cardId, customer, cardType, rewardType, tenant);
     }
 }

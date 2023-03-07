@@ -52,7 +52,7 @@ public class RewardServiceImpl implements RewardService{
     }
 
     @Override
-    public List<RewardDto> getCustomerEarnedRewards(String customerId) {
+    public List<RewardDto> getCustomerEarnedRewards(String tenant, String customerId) {
 
         //todo: implement customer not found handler
         Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new EntityNotFoundException());
@@ -80,7 +80,7 @@ public class RewardServiceImpl implements RewardService{
     }
 
     @Override
-    public List<RewardDto> getCardEarnedRewards(String customerId, String cardType) {
+    public List<RewardDto> getCardEarnedRewards(String tenant, String customerId, String cardType) {
 
         //todo: implement customer not found handler
         Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new EntityNotFoundException());

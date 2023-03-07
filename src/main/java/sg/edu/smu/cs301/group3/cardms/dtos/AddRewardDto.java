@@ -15,6 +15,8 @@ import java.sql.Date;
 @Builder
 public class AddRewardDto {
 
+    private String tenant;
+
     private String transactionId;
 
     private Date transactionDate;
@@ -33,5 +35,4 @@ public class AddRewardDto {
 
     private String remarks;
 
-    private Double rewardBonusAmount; //todo: review to remove
 }

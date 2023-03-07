@@ -15,13 +15,13 @@ public class RewardController {
 
     private final RewardService rewardService;
 
-    @GetMapping("/{customerId}")
-    public ResponseEntity<List<RewardDto>> getCustomerRewards(@PathVariable("customerId") String customerId) {
-        return ResponseEntity.ok(rewardService.getCustomerEarnedRewards(customerId));
+    @GetMapping("/{tenant}/{customerId}")
+    public ResponseEntity<List<RewardDto>> getCustomerRewards(@PathVariable("tenant") String tenant, @PathVariable("customerId") String customerId) {
+        return ResponseEntity.ok(rewardService.getCustomerEarnedRewards(tenant, customerId));
     }
 
-    @GetMapping("/{customerId}/{cardType}")
-    public ResponseEntity<List<RewardDto>> getCustomerRewardsByCard(@PathVariable("customerId") String customerId, @PathVariable("cardType") String cardType) {
-        return ResponseEntity.ok(rewardService.getCardEarnedRewards(customerId, cardType));
+    @GetMapping("/{tenant}/{customerId}/{cardType}")
+    public ResponseEntity<List<RewardDto>> getCustomerRewardsByCard(@PathVariable("tenant") String tenant, @PathVariable("customerId") String customerId, @PathVariable("cardType") String cardType) {
+        return ResponseEntity.ok(rewardService.getCardEarnedRewards(tenant, customerId, cardType));
     }
 }
