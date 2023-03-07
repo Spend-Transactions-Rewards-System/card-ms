@@ -121,10 +121,9 @@ public class RewardServiceTest {
                 .currency(Currencies.SGD)
                 .amount(10.0)
                 .rewardAmount(20.0)
-                .rewardBonusAmount(20.0)
                 .remarks("TestRemarks").build();
 
-        MilesReward expectedMilesReward = new MilesReward(1L,
+        MilesReward expectedMilesReward = new MilesReward("scis",1L,
                 "trans01",  new Card().builder()
                 .cardId("card01")
                 .customer(new Customer().builder()
@@ -134,7 +133,7 @@ public class RewardServiceTest {
                 .rewardType(RewardType.miles)
                 .cardType("scis_platinummiles").build(), "Starbuck",
                 12345, Currencies.SGD, 10.0,new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()),
-                20.0, 30.0, 50.0, "TestRemarks");
+                20.0, 50.0, "TestRemarks");
 
         when(milesRewardRepository.save(any(MilesReward.class))).thenAnswer(invocationOnMock -> {
             MilesReward milesRewardParam = invocationOnMock.getArgument(0);
@@ -163,10 +162,9 @@ public class RewardServiceTest {
                 .currency(Currencies.SGD)
                 .amount(10.0)
                 .rewardAmount(20.0)
-                .rewardBonusAmount(20.0)
                 .remarks("TestRemarks").build();
 
-        PointsReward expectedPointsReward = new PointsReward(1L,
+        PointsReward expectedPointsReward = new PointsReward("scis",1L,
                 "trans01",  new Card().builder()
                 .cardId("card02")
                 .customer(new Customer().builder()
@@ -176,7 +174,7 @@ public class RewardServiceTest {
                 .rewardType(RewardType.points)
                 .cardType("scis_platinummiles").build(), "Starbuck",
                 12345, Currencies.SGD, 10.0,new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()),
-                20.0, 30.0, 50.0, "TestRemarks");
+                20.0, 50.0, "TestRemarks");
 
         when(pointsRewardRepository.save(any(PointsReward.class))).thenAnswer(invocationOnMock -> {
             PointsReward pointsRewardParam = invocationOnMock.getArgument(0);
@@ -206,10 +204,9 @@ public class RewardServiceTest {
                 .currency(Currencies.SGD)
                 .amount(10.0)
                 .rewardAmount(20.0)
-                .rewardBonusAmount(20.0)
                 .remarks("TestRemarks").build();
 
-        CashbackReward expectedCashbackReward = new CashbackReward(1L,
+        CashbackReward expectedCashbackReward = new CashbackReward("scis",1L,
                 "trans01",  new Card().builder()
                 .cardId("card03")
                 .customer(new Customer().builder()
@@ -219,7 +216,7 @@ public class RewardServiceTest {
                 .rewardType(RewardType.cashback)
                 .cardType("scis_platinummiles").build(), "Starbuck",
                 12345, Currencies.SGD, 10.0,new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()),
-                20.0, 30.0, 50.0, "TestRemarks");
+                20.0, 50.0, "TestRemarks");
 
         lenient().when(cashbackRewardRepository.save(any(CashbackReward.class))).thenAnswer(invocationOnMock -> {
             CashbackReward cashbackRewardParam = invocationOnMock.getArgument(0);
@@ -252,7 +249,7 @@ public class RewardServiceTest {
         lenient().when(cashbackRewardRepository.findAllByCard(cashbackCard03())).thenReturn(cashbackRewardsList);
 
         //act
-        List<RewardDto> result = rewardService.getCustomerEarnedRewards("customer01");
+        List<RewardDto> result = rewardService.getCustomerEarnedRewards("scis", "customer01");
 
 
         //assert
@@ -292,7 +289,7 @@ public class RewardServiceTest {
         lenient().when(milesRewardRepository.findAllByCard(card04)).thenReturn(Arrays.asList(RewardStubFactory.MILES_REWARD_02_SGD(card04)));
 
         //act
-        List<RewardDto> result = rewardService.getCardEarnedRewards("customer01", "scis_platinummiles");
+        List<RewardDto> result = rewardService.getCardEarnedRewards("scis", "customer01", "scis_platinummiles");
 
         //assert
         assertThat(result.size()).isEqualTo(1);

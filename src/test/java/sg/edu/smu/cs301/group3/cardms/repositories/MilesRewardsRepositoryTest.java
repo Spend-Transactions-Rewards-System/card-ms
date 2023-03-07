@@ -43,7 +43,7 @@ public class MilesRewardsRepositoryTest {
         CardSeeder cardSeeder = new CardSeeder(cardRepository, customerRepository);
         cardSeeder.insertTestData();
 
-        RewardSeeder rewardSeeder = new RewardSeeder(milesRewardRepository, cardRepository);
+        RewardSeeder rewardSeeder = new RewardSeeder(milesRewardRepository, pointsRewardRepository, cashbackRewardRepository,cardRepository);
         rewardSeeder.insertTestData();
     }
 
@@ -52,8 +52,8 @@ public class MilesRewardsRepositoryTest {
         //arrange
         Card customer01_card01 = cardRepository.findByCardId("card01").get();
 
-        MilesReward expectedMilesReward = new MilesReward(1L, "trans01", customer01_card01, "merchant01", 11111, Currencies.SGD, 10.0,
-                new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()), 14.0, 0.0, 14.0, "Base 1.4 Miles/SGD");
+        MilesReward expectedMilesReward = new MilesReward("scis", 1L, "trans01", customer01_card01, "merchant01", 11111, Currencies.SGD, 10.0,
+                new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()), 14.0, 14.0, "Base 1.4 Miles/SGD");
 
         //act
         List<MilesReward> result = milesRewardRepository.findAllByCard(customer01_card01);

@@ -15,6 +15,8 @@ import java.sql.Date;
 @Data
 public abstract class Reward {
 
+    private String tenant;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -41,8 +43,6 @@ public abstract class Reward {
     private Date transactionDate;
 
     private Double rewardAmount;
-
-    private Double rewardBonusAmount;
 
     private Double balance;
 
