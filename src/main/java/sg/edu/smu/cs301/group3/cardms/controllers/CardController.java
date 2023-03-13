@@ -21,7 +21,6 @@ public class CardController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "*")
     @GetMapping("/healthcheck")
     public ResponseEntity<String> healthcheck(){
         return new ResponseEntity<>("Healthy", HttpStatus.OK);
