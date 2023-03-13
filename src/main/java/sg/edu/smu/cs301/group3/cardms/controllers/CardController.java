@@ -1,5 +1,6 @@
 package sg.edu.smu.cs301.group3.cardms.controllers;
 
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,4 +20,11 @@ public class CardController {
         List<CardDto> response = cardService.getCardsByCustomerId(tenant, customerId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/healthcheck")
+    public ResponseEntity<String> healthcheck(){
+        return new ResponseEntity<>("Healthy", HttpStatus.OK);
+    }
+
 }
