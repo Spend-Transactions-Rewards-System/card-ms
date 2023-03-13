@@ -14,4 +14,5 @@ public interface CashbackRewardRepository extends JpaRepository<CashbackReward, 
     Optional<CashbackReward> findTopByOrderByIdDesc();
 
     List<CashbackReward> findAllByCard(Card card);
+    Optional<CashbackReward> findTopByCardOrderByIdDesc(Card card);
 }

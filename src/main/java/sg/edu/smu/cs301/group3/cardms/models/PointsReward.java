@@ -14,26 +14,29 @@ import java.sql.Date;
 public class PointsReward extends Reward {
 
 
-    public PointsReward(String tenant, Long id, String transactionId, Card card, String merchant, Integer mcc, Currencies currency, Double amount, Date transactionDate, Double rewardAmount, Double balance, String remarks) {
-        super(tenant, id, transactionId, card, merchant, mcc, currency, amount, transactionDate, rewardAmount, balance, remarks );
+    public PointsReward(String tenant, Long id, String transactionId, Card card, String merchant, Integer mcc, Currencies currency, Double amount, Date transactionDate, Double rewardAmount, Double balance, String remarks, PointsReward previousPointsTransaction) {
+        super(tenant, id, transactionId, card, merchant, mcc, currency, amount, transactionDate, rewardAmount, balance, remarks, previousPointsTransaction );
     }
 
-    public PointsReward(AddRewardDto addRewardDto, CardRepository cardRepository) {
+    public PointsReward(AddRewardDto addRewardDto, CardRepository cardRepository, PointsRewardRepository pointsRewardRepository) {
+
         this(addRewardDto.getTenant(), null, addRewardDto.getTransactionId(), null, addRewardDto.getMerchant(), addRewardDto.getMcc(), addRewardDto.getCurrency(), addRewardDto.getAmount(),
-                addRewardDto.getTransactionDate(), addRewardDto.getRewardAmount(), 0.0, addRewardDto.getRemarks());
+                addRewardDto.getTransactionDate(), addRewardDto.getRewardAmount(), 0.0, addRewardDto.getRemarks(), null);
 
         Card card = cardRepository.findByCardId(addRewardDto.getCardId()).get();
+        PointsReward previousPointsReward = pointsRewardRepository.findTopByCardOrderByIdDesc(card).get();
+
+        updateBalance(previousPointsReward.getBalance());
 
         this.setCard(card);
+        this.setPreviousTransaction(previousPointsReward);
     }
 
     public PointsReward() {
     }
 
-    public void updateBalance(Double rewardBasedAmount, PointsRewardRepository pointsRewardRepository) {
-        PointsReward previousPoints = pointsRewardRepository.findTopByOrderByIdDesc().orElse(new PointsReward());
-
-        this.setBalance(previousPoints.getBalance() + rewardBasedAmount);
+    private void updateBalance(Double previousBalance) {
+        this.setBalance(previousBalance + this.getRewardAmount());
     }
 
 }

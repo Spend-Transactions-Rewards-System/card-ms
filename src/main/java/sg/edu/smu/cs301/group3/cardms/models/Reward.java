@@ -47,4 +47,6 @@ public abstract class Reward {
     private Double balance;
 
     private String remarks;
+
+    private Object previousTransaction;
 }
