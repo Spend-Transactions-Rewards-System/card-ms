@@ -34,17 +34,17 @@ public class RewardServiceImpl implements RewardService{
         Reward savedReward = null;
 
         if(card.getRewardType().equals(RewardType.miles)) {
-            MilesReward milesReward = new MilesReward(addRewardDto, cardRepository);
+            MilesReward milesReward = new MilesReward(addRewardDto, cardRepository, milesRewardRepository);
             savedReward = milesRewardRepository.save(milesReward);
         }
 
         if(card.getRewardType().equals(RewardType.points)) {
-            PointsReward pointsReward = new PointsReward(addRewardDto, cardRepository);
+            PointsReward pointsReward = new PointsReward(addRewardDto, cardRepository, pointsRewardRepository);
             savedReward = pointsRewardRepository.save(pointsReward);
         }
 
         if(card.getRewardType().equals(RewardType.cashback)) {
-            CashbackReward cashbackReward = new CashbackReward(addRewardDto, cardRepository);
+            CashbackReward cashbackReward = new CashbackReward(addRewardDto, cardRepository, cashbackRewardRepository);
             savedReward = cashbackRewardRepository.save(cashbackReward);
         }
 
