@@ -62,4 +62,22 @@ public class MilesRewardsRepositoryTest {
         assertThat(result.size()).isEqualTo(1);
         assertThat(result.get(0)).usingRecursiveComparison().isEqualTo(expectedMilesReward);
     }
+
+
+    @Test
+    public void findMostRecentRewardByCard_givenMixtureCardRewards_shouldReturnMostRecentReward() throws ParseException {
+        //arrange
+        Card customer02_card03 = cardRepository.findByCardId("card03").get();
+
+        MilesReward expectedMilesReward = new MilesReward("scis", 5L,"trans04", customer02_card03, "Sushiro", 22222, Currencies.SGD, 1000.0,
+                new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()),140.0, 168.0,  "Base 1.4 Miles/SGD", new MilesReward());
+
+        //act
+        List<MilesReward> result = milesRewardRepository.findAllByCard(customer02_card03);
+
+        //assert
+        assertThat(result.size()).isEqualTo(1);
+        assertThat(result.get(0)).usingRecursiveComparison().isEqualTo(expectedMilesReward);
+
+    }
 }
