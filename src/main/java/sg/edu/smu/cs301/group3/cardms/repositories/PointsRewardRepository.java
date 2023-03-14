@@ -10,10 +10,5 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface PointsRewardRepository extends JpaRepository<PointsReward, Long> {
-
-    Optional<PointsReward> findTopByOrderByIdDesc();
-
-    List<PointsReward> findAllByCard(Card card);
-    Optional<PointsReward> findTopByCardOrderByIdDesc(Card card);
+public interface PointsRewardRepository extends RewardRepository<PointsReward, Long> {
 }

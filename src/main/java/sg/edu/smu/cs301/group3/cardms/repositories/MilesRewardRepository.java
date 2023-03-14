@@ -11,9 +11,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface MilesRewardRepository extends JpaRepository<MilesReward, Long> {
+public interface MilesRewardRepository extends RewardRepository<MilesReward, Long> {
 
-    List<MilesReward> findAllByCard(Card card);
-    Optional<MilesReward> findTopByOrderByIdDesc();
-    Optional<MilesReward> findTopByCardOrderByIdDesc(Card card);
 }

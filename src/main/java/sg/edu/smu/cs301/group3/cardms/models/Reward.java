@@ -6,6 +6,11 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
+import sg.edu.smu.cs301.group3.cardms.dtos.AddRewardDto;
+import sg.edu.smu.cs301.group3.cardms.repositories.CardRepository;
+import sg.edu.smu.cs301.group3.cardms.repositories.MilesRewardRepository;
+import sg.edu.smu.cs301.group3.cardms.repositories.RewardRepository;
 
 import java.sql.Date;
 
@@ -49,4 +54,26 @@ public abstract class Reward {
     private String remarks;
 
     private Long previousTransaction;
+    public Reward(AddRewardDto addRewardDto, CardRepository cardRepository, RewardRepository rewardRepository) {
+
+        this(addRewardDto.getTenant(), null, addRewardDto.getTransactionId(), null, addRewardDto.getMerchant(), addRewardDto.getMcc(), addRewardDto.getCurrency(), addRewardDto.getAmount(),
+                addRewardDto.getTransactionDate(), addRewardDto.getRewardAmount(), 0.0, addRewardDto.getRemarks(), null);
+
+        Card card = cardRepository.findByCardId(addRewardDto.getCardId()).get();
+        Reward previousReward = (Reward) rewardRepository.findTopByCardOrderByIdDesc(card).orElseGet(() -> null);
+
+        if(previousReward == null) {
+            updateBalance(0.0);
+        } else {
+            updateBalance(previousReward.getBalance());
+            this.setPreviousTransaction(previousReward.getId());
+        }
+
+        this.setCard(card);
+    }
+
+    private void updateBalance(Double previousBalance) {
+        this.setBalance(previousBalance + this.getRewardAmount());
+    }
+
 }
