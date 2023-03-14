@@ -14,7 +14,7 @@ import java.sql.Date;
 public class MilesReward extends Reward {
 
 
-    public MilesReward(String tenant, Long id, String transactionId, Card card, String merchant, Integer mcc, Currencies currency, Double amount, Date transactionDate, Double rewardAmount, Double balance, String remarks, MilesReward previousMilesReward) {
+    public MilesReward(String tenant, Long id, String transactionId, Card card, String merchant, Integer mcc, Currencies currency, Double amount, Date transactionDate, Double rewardAmount, Double balance, String remarks, Long previousMilesReward) {
         super(tenant, id, transactionId, card, merchant, mcc, currency, amount, transactionDate, rewardAmount, balance, remarks, previousMilesReward );
     }
 
@@ -23,12 +23,16 @@ public class MilesReward extends Reward {
                 addRewardDto.getTransactionDate(), addRewardDto.getRewardAmount(), 0.0, addRewardDto.getRemarks(), null);
 
         Card card = cardRepository.findByCardId(addRewardDto.getCardId()).get();
-        MilesReward previousMilesReward = milesRewardRepository.findTopByCardOrderByIdDesc(card).get();
+        MilesReward previousMilesReward = milesRewardRepository.findTopByCardOrderByIdDesc(card).orElseGet(() -> null);
 
-        updateBalance(previousMilesReward.getBalance());
+        if(previousMilesReward == null) {
+            updateBalance(0.0);
+        } else {
+            updateBalance(previousMilesReward.getBalance());
+        }
 
         this.setCard(card);
-        this.setPreviousTransaction(previousMilesReward);
+        this.setPreviousTransaction(previousMilesReward.getId());
     }
 
     public MilesReward() {

@@ -48,5 +48,5 @@ public abstract class Reward {
 
     private String remarks;
 
-    private Object previousTransaction;
+    private Long previousTransaction;
 }

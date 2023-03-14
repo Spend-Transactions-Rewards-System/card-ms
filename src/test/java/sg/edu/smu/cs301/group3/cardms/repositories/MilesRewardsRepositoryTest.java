@@ -53,7 +53,7 @@ public class MilesRewardsRepositoryTest {
         Card customer01_card01 = cardRepository.findByCardId("card01").get();
 
         MilesReward expectedMilesReward = new MilesReward("scis", 1L, "trans01", customer01_card01, "merchant01", 11111, Currencies.SGD, 100.0,
-                new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()), 14.0, 14.0, "Base 1.4 Miles/SGD", new MilesReward());
+                new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()), 14.0, 14.0, "Base 1.4 Miles/SGD", null);
 
         //act
         List<MilesReward> result = milesRewardRepository.findAllByCard(customer01_card01);
@@ -70,7 +70,7 @@ public class MilesRewardsRepositoryTest {
         Card customer02_card03 = cardRepository.findByCardId("card03").get();
 
         MilesReward expectedMilesReward = new MilesReward("scis", 5L,"trans04", customer02_card03, "Sushiro", 22222, Currencies.SGD, 1000.0,
-                new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()),140.0, 168.0,  "Base 1.4 Miles/SGD", new MilesReward());
+                new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()),140.0, 168.0,  "Base 1.4 Miles/SGD", 4L);
 
         //act
         List<MilesReward> result = milesRewardRepository.findAllByCard(customer02_card03);
