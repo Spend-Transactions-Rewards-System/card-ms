@@ -14,7 +14,7 @@ import java.sql.Date;
 public class PointsReward extends Reward {
 
 
-    public PointsReward(String tenant, Long id, String transactionId, Card card, String merchant, Integer mcc, Currencies currency, Double amount, Date transactionDate, Double rewardAmount, Double balance, String remarks, PointsReward previousPointsTransaction) {
+    public PointsReward(String tenant, Long id, String transactionId, Card card, String merchant, Integer mcc, Currencies currency, Double amount, Date transactionDate, Double rewardAmount, Double balance, String remarks, Long previousPointsTransaction) {
         super(tenant, id, transactionId, card, merchant, mcc, currency, amount, transactionDate, rewardAmount, balance, remarks, previousPointsTransaction );
     }
 
@@ -29,7 +29,7 @@ public class PointsReward extends Reward {
         updateBalance(previousPointsReward.getBalance());
 
         this.setCard(card);
-        this.setPreviousTransaction(previousPointsReward);
+        this.setPreviousTransaction(previousPointsReward.getId());
     }
 
     public PointsReward() {
