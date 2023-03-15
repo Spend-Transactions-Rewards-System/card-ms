@@ -133,7 +133,7 @@ public class RewardServiceTest {
                 .rewardType(RewardType.miles)
                 .cardType("scis_platinummiles").build(), "Starbuck",
                 12345, Currencies.SGD, 10.0,new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()),
-                20.0, 50.0, "TestRemarks");
+                20.0, 50.0, "TestRemarks", null);
 
         when(milesRewardRepository.save(any(MilesReward.class))).thenAnswer(invocationOnMock -> {
             MilesReward milesRewardParam = invocationOnMock.getArgument(0);
@@ -174,7 +174,7 @@ public class RewardServiceTest {
                 .rewardType(RewardType.points)
                 .cardType("scis_platinummiles").build(), "Starbuck",
                 12345, Currencies.SGD, 10.0,new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()),
-                20.0, 50.0, "TestRemarks");
+                20.0, 50.0, "TestRemarks", null);
 
         when(pointsRewardRepository.save(any(PointsReward.class))).thenAnswer(invocationOnMock -> {
             PointsReward pointsRewardParam = invocationOnMock.getArgument(0);
@@ -216,7 +216,7 @@ public class RewardServiceTest {
                 .rewardType(RewardType.cashback)
                 .cardType("scis_platinummiles").build(), "Starbuck",
                 12345, Currencies.SGD, 10.0,new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()),
-                20.0, 50.0, "TestRemarks");
+                20.0, 50.0, "TestRemarks", null);
 
         lenient().when(cashbackRewardRepository.save(any(CashbackReward.class))).thenAnswer(invocationOnMock -> {
             CashbackReward cashbackRewardParam = invocationOnMock.getArgument(0);

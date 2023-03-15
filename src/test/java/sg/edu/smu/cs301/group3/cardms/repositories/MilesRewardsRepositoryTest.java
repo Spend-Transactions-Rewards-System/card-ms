@@ -15,6 +15,7 @@ import sg.edu.smu.cs301.group3.cardms.models.*;
 import java.sql.Date;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -53,7 +54,7 @@ public class MilesRewardsRepositoryTest {
         Card customer01_card01 = cardRepository.findByCardId("card01").get();
 
         MilesReward expectedMilesReward = new MilesReward("scis", 1L, "trans01", customer01_card01, "merchant01", 11111, Currencies.SGD, 100.0,
-                new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()), 14.0, 14.0, "Base 1.4 Miles/SGD");
+                new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()), 14.0, 14.0, "Base 1.4 Miles/SGD", null);
 
         //act
         List<MilesReward> result = milesRewardRepository.findAllByCard(customer01_card01);
@@ -61,5 +62,23 @@ public class MilesRewardsRepositoryTest {
         //assert
         assertThat(result.size()).isEqualTo(1);
         assertThat(result.get(0)).usingRecursiveComparison().isEqualTo(expectedMilesReward);
+    }
+
+
+    @Test
+    public void findMostRecentRewardByCard_givenMixtureCardRewards_shouldReturnMostRecentReward() throws ParseException {
+        //arrange
+        Card customer02_card03 = cardRepository.findByCardId("card03").get();
+
+        MilesReward expectedMilesReward = new MilesReward("scis", 5L,"trans04", customer02_card03, "Sushiro", 22222, Currencies.SGD, 1000.0,
+                new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()),140.0, 168.0,  "Base 1.4 Miles/SGD", 2L);
+
+        //act
+        Optional<MilesReward> result = milesRewardRepository.findTopByCardOrderByIdDesc(customer02_card03);
+
+        //assert
+        assertThat(result.isPresent()).isEqualTo(true);
+        assertThat(result.get()).usingRecursiveComparison().isEqualTo(expectedMilesReward);
+
     }
 }

@@ -50,25 +50,31 @@ public class RewardSeeder {
         Card customer03_card08 = cardRepository.findByCardId("card08").get();
 
          MilesReward milesReward01_testCustomer01_card01 =  new MilesReward("scis", 1L,"trans01", customer01_card01, "merchant01", 11111, Currencies.SGD, 100.0,
-                 new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()),14.0, 14.0,  "Base 1.4 Miles/SGD");
+                 new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()),14.0, 14.0,  "Base 1.4 Miles/SGD", null);
 
          MilesReward milesReward02_testCustomer02_card03 = new MilesReward("scis", 2L,"trans02", customer02_card03, "merchant02", 22222, Currencies.SGD, 100.0,
-                 new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()),14.0, 28.0,  "Base 1.4 Miles/SGD");
+                 new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()),14.0, 28.0,  "Base 1.4 Miles/SGD", null);
 
         MilesReward milesReward03_testCustomer03_card05 = new MilesReward("scis", 3L,"trans03", customer03_card05, "Mandai Zoo", 33333, Currencies.SGD, 100.0,
-                new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()),14.0, 14.0,  "Base 1.4 Miles/SGD");
+                new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()),14.0, 14.0,  "Base 1.4 Miles/SGD", null);
 
         MilesReward milesReward04_testCustomer03_card06 = new MilesReward("scis", 4L,"trans04", customer03_card06, "Sushiro", 22222, Currencies.SGD, 100.0,
-                new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()),14.0, 28.0,  "Base 1.4 Miles/SGD");
+                new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()),14.0, 28.0,  "Base 1.4 Miles/SGD", null);
+
+        MilesReward milesReward05_testCustomer02_card03 = new MilesReward("scis", 5L,"trans04", customer02_card03, "Sushiro", 22222, Currencies.SGD, 1000.0,
+                new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()),140.0, 168.0,  "Base 1.4 Miles/SGD", 2L);
+
+        MilesReward milesReward06_testCustomer03_card06 = new MilesReward("scis", 6L,"trans04", customer03_card06, "Sushiro", 22222, Currencies.SGD, 100.0,
+                new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()),14.0, 42.0,  "Base 1.4 Miles/SGD", 4L);
 
         PointsReward pointsReward01_testCustomer03_card07 = new PointsReward("scis", 1L,"trans05", customer03_card07, "H&M", 44444, Currencies.SGD, 100.0,
-                new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()),100.0, 100.0,  "1 point/SGD on spend");
+                new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()),100.0, 100.0,  "1 point/SGD on spend", null);
 
         CashbackReward cashbackReward01_testCustomer03_card08 = new CashbackReward("scis", 1L,"trans06", customer03_card08, "Uniqlo", 22222, Currencies.SGD, 500.0,
-                new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()),5.0, 5.0,  "1.0% cashback for all spend");
+                new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()),5.0, 5.0,  "1.0% cashback for all spend", null);
 
         milesRewardRepository.saveAllAndFlush(Arrays.asList(milesReward01_testCustomer01_card01, milesReward02_testCustomer02_card03, milesReward03_testCustomer03_card05,
-                milesReward04_testCustomer03_card06));
+                milesReward04_testCustomer03_card06, milesReward05_testCustomer02_card03, milesReward06_testCustomer03_card06));
 
         pointsRewardRepository.saveAllAndFlush(Arrays.asList(pointsReward01_testCustomer03_card07));
 
