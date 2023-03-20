@@ -1,15 +1,19 @@
 package sg.edu.smu.cs301.group3.cardms.controllers;
 
+import io.awspring.cloud.sqs.operations.SendResult;
+import io.awspring.cloud.sqs.operations.SqsTemplate;
+import io.awspring.cloud.sqs.operations.TemplateAcknowledgementMode;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.messaging.Message;
 import org.springframework.web.bind.annotation.*;
 import sg.edu.smu.cs301.group3.cardms.dtos.RewardDto;
 import sg.edu.smu.cs301.group3.cardms.services.RewardService;
+import software.amazon.awssdk.services.sqs.SqsAsyncClient;
 
 import java.util.List;
 
@@ -19,8 +23,12 @@ import java.util.List;
 public class RewardController {
     @Value("${aws.sqs.queue.url}")
     private String endPoint;
-//    @Autowired
-//    private QueueMessagingTemplate queueMessagingTemplate;
+
+    @Value("${aws.sqs.queue.name}")
+    private String queueName;
+
+    @Autowired
+    SqsAsyncClient sqsAsyncClient;
 
     Logger logger = LoggerFactory.getLogger(RewardController.class);
 
@@ -36,17 +44,17 @@ public class RewardController {
         return ResponseEntity.ok(rewardService.getCardEarnedRewards(tenant, customerId, cardType));
     }
 
-//    @PostMapping("/message")
-//    public String sendMessage(@RequestBody String message) {
-//
-//        try {
-//            queueMessagingTemplate.send(endPoint, MessageBuilder.withPayload(message).build());
-//            System.out.println("Message sent successfully  " + message);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return message;
-//    }
+    @PostMapping("/message")
+    public ResponseEntity<String> sendMessage(@RequestBody String message){
+        SqsTemplate template = SqsTemplate.builder()
+                .sqsAsyncClient(sqsAsyncClient)
+                .configure(options -> options.acknowledgementMode(TemplateAcknowledgementMode.MANUAL))
+                .build();
+        SendResult<String> result = template.send(to -> to.queue(queueName)
+                .payload(message)
+        );
+        return ResponseEntity.ok(result.message().toString());
+    }
 
 
 
