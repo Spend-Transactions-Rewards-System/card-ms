@@ -13,6 +13,10 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
 import sg.edu.smu.cs301.group3.cardms.configurations.AwsSQSConfig;
+import sg.edu.smu.cs301.group3.cardms.dtos.AddRewardDto;
+import sg.edu.smu.cs301.group3.cardms.dtos.RewardDto;
+import sg.edu.smu.cs301.group3.cardms.models.Reward;
+import sg.edu.smu.cs301.group3.cardms.repositories.*;
 import software.amazon.awssdk.services.sqs.SqsAsyncClient;
 
 import java.util.concurrent.ExecutorService;
@@ -22,8 +26,11 @@ import java.util.concurrent.Executors;
 public class QueueListenerImpl {
     Logger logger = LoggerFactory.getLogger(QueueListenerImpl.class);
 
-    @Value("${aws.listening.sqs.queue.name}")
-    private String queueName;
+    @Autowired
+    RewardServiceImpl rewardServiceImpl;
+
+    @Value("${aws.card.to.campaign.queue}")
+    private String cardToCampaign;
 
     @Autowired
     SqsAsyncClient sqsAsyncClient;
@@ -31,19 +38,21 @@ public class QueueListenerImpl {
     // Fix 3 threads, 1 for each reward type
     private final ExecutorService executorService = Executors.newFixedThreadPool(3);
 
-    @SqsListener("SeanTestQueue")
-    public void receiveMessage(String message) {
+    @SqsListener(value = "${aws.campaign.to.card.queue}")
+    public void receiveMessage(Message<AddRewardDto> message) {
         executorService.submit(() -> {
             // call processMessage to insert record into Aurora DB
-            processMessage(message);
+            processMessagePayload(message.getPayload());
 
             // acknowledge message processed
 
         });
     }
 
-    public void processMessage(String message){
-        logger.info("message received: " + message);
+    public void processMessagePayload(AddRewardDto payload){
+        logger.info("payload received: " + payload);
+        RewardDto rewardDto = rewardServiceImpl.addEarnedReward(payload);
+        System.out.println(rewardDto.toString());
     }
 
     public void acknowledgeMessage(String message){
@@ -51,7 +60,7 @@ public class QueueListenerImpl {
                 .sqsAsyncClient(sqsAsyncClient)
                 .configure(options -> options.acknowledgementMode(TemplateAcknowledgementMode.MANUAL))
                 .build();
-        SendResult<String> result = template.send(to -> to.queue(queueName)
+        SendResult<String> result = template.send(to -> to.queue(cardToCampaign)
                 .payload(message)
         );
 

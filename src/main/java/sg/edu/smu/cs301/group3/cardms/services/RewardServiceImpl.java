@@ -30,6 +30,7 @@ public class RewardServiceImpl implements RewardService{
 
         //todo: implement the business logic if given cardId is not found
         Card card = cardRepository.findByCardId(addRewardDto.getCardId()).orElseThrow(() -> new EntityNotFoundException(""));
+        System.out.println(card.getCardType());
 
         Reward savedReward = null;
 

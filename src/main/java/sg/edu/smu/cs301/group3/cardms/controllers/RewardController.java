@@ -24,8 +24,11 @@ public class RewardController {
     @Value("${aws.sqs.queue.url}")
     private String endPoint;
 
-    @Value("${aws.sqs.queue.name}")
-    private String queueName;
+    @Value("${aws.card.to.campaign.queue}")
+    private String cardToCampaign;
+
+    @Value("${aws.campaign.to.card.queue}")
+    private String campaignToCard;
 
     @Autowired
     SqsAsyncClient sqsAsyncClient;
@@ -50,7 +53,7 @@ public class RewardController {
                 .sqsAsyncClient(sqsAsyncClient)
                 .configure(options -> options.acknowledgementMode(TemplateAcknowledgementMode.MANUAL))
                 .build();
-        SendResult<String> result = template.send(to -> to.queue(queueName)
+        SendResult<String> result = template.send(to -> to.queue(campaignToCard)
                 .payload(message)
         );
         return ResponseEntity.ok(result.message().toString());
