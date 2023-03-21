@@ -1,6 +1,7 @@
 package sg.edu.smu.cs301.group3.cardms.services;
 
 import io.awspring.cloud.sqs.annotation.SqsListener;
+import io.awspring.cloud.sqs.listener.acknowledgement.Acknowledgement;
 import io.awspring.cloud.sqs.operations.SendResult;
 import io.awspring.cloud.sqs.operations.SqsTemplate;
 import io.awspring.cloud.sqs.operations.TemplateAcknowledgementMode;
@@ -18,6 +19,7 @@ import sg.edu.smu.cs301.group3.cardms.dtos.RewardDto;
 import sg.edu.smu.cs301.group3.cardms.models.Reward;
 import sg.edu.smu.cs301.group3.cardms.repositories.*;
 import software.amazon.awssdk.services.sqs.SqsAsyncClient;
+import software.amazon.awssdk.services.sqs.model.DeleteMessageRequest;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -32,6 +34,9 @@ public class QueueListenerImpl {
     @Value("${aws.card.to.campaign.queue}")
     private String cardToCampaign;
 
+    @Value("aws.sqs.queue.url")
+    private String queueUrl;
+
     @Autowired
     SqsAsyncClient sqsAsyncClient;
 
@@ -41,18 +46,27 @@ public class QueueListenerImpl {
     @SqsListener(value = "${aws.campaign.to.card.queue}")
     public void receiveMessage(Message<AddRewardDto> message) {
         executorService.submit(() -> {
-            // call processMessage to insert record into Aurora DB
-            processMessagePayload(message.getPayload());
+            try{
+                // call processMessage to insert record into Aurora DB
+                processMessagePayload(message.getPayload());
 
-            // acknowledge message processed
+                // retrieve message receipt handle and send message delete request when message is processed
+                String receiptHandle = (String) message.getHeaders().get("Sqs_ReceiptHandle");
+                DeleteMessageRequest deleteRequest = DeleteMessageRequest.builder()
+                        .queueUrl(queueUrl)
+                        .receiptHandle(receiptHandle)
+                        .build();
+                sqsAsyncClient.deleteMessage(deleteRequest);
+            } catch (Exception e){
+                logger.error("Unable to process message" + message.getHeaders().get("Sqs_ReceiptHandle"));
+            }
 
         });
     }
 
     public void processMessagePayload(AddRewardDto payload){
-        logger.info("payload received: " + payload);
+        logger.info("sqs payload received: " + payload);
         RewardDto rewardDto = rewardServiceImpl.addEarnedReward(payload);
-        System.out.println(rewardDto.toString());
     }
 
     public void acknowledgeMessage(String message){

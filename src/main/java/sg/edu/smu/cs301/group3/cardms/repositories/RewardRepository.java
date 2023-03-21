@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface RewardRepository<T extends Reward, I extends Long> extends JpaRepository<T, I> {
 
     List<T> findAllByCard(Card card);
-    @Lock(LockModeType.PESSIMISTIC_READ)
+//    @Lock(LockModeType.PESSIMISTIC_READ)
     Optional<T> findTopByCardOrderByIdDesc(Card card);
 
 }
