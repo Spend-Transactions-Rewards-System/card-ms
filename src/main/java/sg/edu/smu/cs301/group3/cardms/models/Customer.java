@@ -1,6 +1,7 @@
 package sg.edu.smu.cs301.group3.cardms.models;
 
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +13,7 @@ import java.util.Set;
 @Entity
 @Data
 @AllArgsConstructor
+@Transactional
 public class Customer implements Serializable {
 
     private String tenant;
