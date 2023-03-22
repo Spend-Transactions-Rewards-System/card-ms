@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Service;
 import sg.edu.smu.cs301.group3.cardms.dtos.AddRewardDto;
@@ -17,24 +18,18 @@ import java.util.concurrent.Executors;
 
 @Service
 public class QueueListenerImpl implements QueueListener {
-    Logger logger = LoggerFactory.getLogger(QueueListenerImpl.class);
+    Logger logger = LoggerFactory.getLogger(QueueListener.class);
 
     @Autowired
     RewardServiceImpl rewardServiceImpl;
 
-    @Value("${aws.card.to.campaign.queue}")
-    private String cardToCampaign;
-
     @Value("aws.campaign.to.card.queue.url")
     private String campaignToCardQueueUrl;
-
-    @Value("listener.threads")
-    private int listenerThreads;
 
     @Autowired
     SqsAsyncClient sqsAsyncClient;
 
-    private final ExecutorService executorService = Executors.newFixedThreadPool(listenerThreads);
+    private final ExecutorService executorService = Executors.newFixedThreadPool(3);
 
     @SqsListener(value = "${aws.campaign.to.card.queue}")
     private void receiveMessage(Message<AddRewardDto> message) {
