@@ -21,20 +21,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/card/rewards")
 public class RewardController {
-    @Value("${aws.sqs.queue.url}")
-    private String endPoint;
-
-    @Value("${aws.card.to.campaign.queue}")
-    private String cardToCampaign;
-
-    @Value("${aws.campaign.to.card.queue}")
-    private String campaignToCard;
-
-    @Autowired
-    SqsAsyncClient sqsAsyncClient;
-
-    Logger logger = LoggerFactory.getLogger(RewardController.class);
-
     private final RewardService rewardService;
 
     @GetMapping("/{tenant}/{customerId}")
@@ -46,19 +32,4 @@ public class RewardController {
     public ResponseEntity<List<RewardDto>> getCustomerRewardsByCard(@PathVariable("tenant") String tenant, @PathVariable("customerId") String customerId, @PathVariable("cardType") String cardType) {
         return ResponseEntity.ok(rewardService.getCardEarnedRewards(tenant, customerId, cardType));
     }
-
-    @PostMapping("/message")
-    public ResponseEntity<String> sendMessage(@RequestBody String message){
-        SqsTemplate template = SqsTemplate.builder()
-                .sqsAsyncClient(sqsAsyncClient)
-                .configure(options -> options.acknowledgementMode(TemplateAcknowledgementMode.MANUAL))
-                .build();
-        SendResult<String> result = template.send(to -> to.queue(campaignToCard)
-                .payload(message)
-        );
-        return ResponseEntity.ok(result.message().toString());
-    }
-
-
-
 }
