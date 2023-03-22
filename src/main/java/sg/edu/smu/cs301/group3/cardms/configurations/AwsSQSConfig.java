@@ -7,6 +7,7 @@ import io.awspring.cloud.sqs.operations.TemplateAcknowledgementMode;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
+import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.sqs.SqsAsyncClient;
 
 import java.util.Collection;
@@ -25,7 +26,7 @@ public class AwsSQSConfig {
 
     @Bean
     public SqsAsyncClient sqsAsyncClient() {
-        return SqsAsyncClient.builder().build();
+        return SqsAsyncClient.builder().region(Region.AP_SOUTHEAST_1).build();
     }
 
 }
