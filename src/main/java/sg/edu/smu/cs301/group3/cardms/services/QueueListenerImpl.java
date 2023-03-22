@@ -34,7 +34,6 @@ public class QueueListenerImpl implements QueueListener {
     @Autowired
     SqsAsyncClient sqsAsyncClient;
 
-    // Fix 3 threads, 1 for each reward type
     private final ExecutorService executorService = Executors.newFixedThreadPool(listenerThreads);
 
     @SqsListener(value = "${aws.campaign.to.card.queue}")
