@@ -13,7 +13,7 @@ import java.util.Set;
 @Entity
 @Data
 @AllArgsConstructor
-@Transactional
+//@Transactional
 public class Customer implements Serializable {
 
     private String tenant;
