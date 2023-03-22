@@ -12,7 +12,7 @@ import java.util.Objects;
 public class Card implements Serializable {
     @Id
     private String cardId;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "customerId", nullable = false)
     private Customer customer;
     private String cardType;
