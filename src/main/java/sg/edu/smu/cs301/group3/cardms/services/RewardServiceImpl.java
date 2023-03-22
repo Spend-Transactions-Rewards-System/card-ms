@@ -2,6 +2,8 @@ package sg.edu.smu.cs301.group3.cardms.services;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import sg.edu.smu.cs301.group3.cardms.dtos.AddRewardDto;
 import sg.edu.smu.cs301.group3.cardms.dtos.RewardDto;
@@ -16,6 +18,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class RewardServiceImpl implements RewardService{
+
+    Logger logger = LoggerFactory.getLogger(RewardServiceImpl.class);
 
     private final CardRepository cardRepository;
     private final MilesRewardRepository milesRewardRepository;
@@ -33,17 +37,17 @@ public class RewardServiceImpl implements RewardService{
 
         Reward savedReward = null;
 
-        if(card.getRewardType().equals(RewardType.miles)) {
+        if (card.getRewardType().equals(RewardType.miles)) {
             MilesReward milesReward = new MilesReward(addRewardDto, cardRepository, milesRewardRepository);
             savedReward = milesRewardRepository.save(milesReward);
         }
 
-        if(card.getRewardType().equals(RewardType.points)) {
+        if (card.getRewardType().equals(RewardType.points)) {
             PointsReward pointsReward = new PointsReward(addRewardDto, cardRepository, pointsRewardRepository);
             savedReward = pointsRewardRepository.save(pointsReward);
         }
 
-        if(card.getRewardType().equals(RewardType.cashback)) {
+        if (card.getRewardType().equals(RewardType.cashback)) {
             CashbackReward cashbackReward = new CashbackReward(addRewardDto, cardRepository, cashbackRewardRepository);
             savedReward = cashbackRewardRepository.save(cashbackReward);
         }
