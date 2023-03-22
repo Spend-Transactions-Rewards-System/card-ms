@@ -26,7 +26,7 @@ public class QueueListenerImpl implements QueueListener {
     private String cardToCampaign;
 
     @Value("aws.campaign.to.card.queue.url")
-    private String queueUrl;
+    private String campaignToCardQueueUrl;
 
     @Autowired
     SqsAsyncClient sqsAsyncClient;
@@ -44,7 +44,7 @@ public class QueueListenerImpl implements QueueListener {
                 // retrieve message receipt handle and send message delete request when message is processed
                 String receiptHandle = (String) message.getHeaders().get("Sqs_ReceiptHandle");
                 DeleteMessageRequest deleteRequest = DeleteMessageRequest.builder()
-                        .queueUrl(queueUrl)
+                        .queueUrl(campaignToCardQueueUrl)
                         .receiptHandle(receiptHandle)
                         .build();
                 sqsAsyncClient.deleteMessage(deleteRequest);
