@@ -36,3 +36,4 @@ build/
 *.db
 *.newFile
 *.oldFile
+/.env
