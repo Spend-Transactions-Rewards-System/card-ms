@@ -22,6 +22,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    environment: production
+    env:
+      PROFILE_ACTIVE: ${{ vars.PROFILE_ACTIVE }}
+      LOG_LEVEL: ${{ vars.LOG_LEVEL }}
+      JPA_DDL_CONFIG: ${{ vars.JPA_DDL_CONFIG }}
+      DB_MYSQL_URL: ${{ vars.DB_MYSQL_URL }}
+      DB_MYSQL_USERNAME: ${{ secrets.DB_MYSQL_USERNAME }}
+      DB_MYSQL_PASSWORD: ${{ secrets.DB_MYSQL_PASSWORD }}
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -34,23 +46,30 @@ jobs:
         cache: maven
 
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B package --file pom.xml -P dev
 
     - name: Run tests
-      run: mvn test
+      run: mvn test -P dev
 
   deploy:
     needs: build
-    name: Deploy
     runs-on: ubuntu-latest
     environment: production
     env:
-      AWS_REGION: ${{ vars.AWS_REGION }}                   # set this to your preferred AWS region, e.g. us-west-1
-      ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}           # set this to your Amazon ECR repository name
-      ECS_SERVICE: ${{ vars.ECS_SERVICE }}                 # set this to your Amazon ECS service name
-      ECS_CLUSTER: ${{ vars.ECS_CLUSTER }}                 # set this to your Amazon ECS cluster name
-      ECS_TASK_DEFINITION: ${{ vars.ECS_TASK_DEFINITION }} # set this to the path to your Amazon ECS task definition
-      CONTAINER_NAME: ${{ vars.CONTAINER_NAME }}           # set this to the name of the container in the
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
+      ECS_SERVICE: ${{ vars.ECS_SERVICE }}
+      ECS_CLUSTER: ${{ vars.ECS_CLUSTER }}
+      ECS_TASK_DEFINITION: ${{ vars.ECS_TASK_DEFINITION }}
+      CONTAINER_NAME: ${{ vars.CONTAINER_NAME }}
+      PROFILE_ACTIVE: ${{ vars.PROFILE_ACTIVE }}
+      LOG_LEVEL: ${{ vars.LOG_LEVEL }}
+      JPA_DDL_CONFIG: ${{ vars.JPA_DDL_CONFIG }}
+      DB_MYSQL_URL: ${{ vars.DB_MYSQL_URL }}
+      DB_MYSQL_USERNAME: ${{ secrets.DB_MYSQL_USERNAME }}
+      DB_MYSQL_PASSWORD: ${{ secrets.DB_MYSQL_PASSWORD }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     steps:
       - name: Use variables
@@ -60,6 +79,7 @@ jobs:
           echo "ecs service : ${{ env.ECS_SERVICE }}"
           echo "ecs cluster : ${{ env.ECS_CLUSTER }}"
           echo "ecs task definition : ${{ env.ECS_TASK_DEFINITION }}"
+          echo "Log Level: ${{ env.LOG_LEVEL }}"
 
       - name: Checkout
         uses: actions/checkout@v3
@@ -84,7 +104,7 @@ jobs:
           # Build a docker container and
           # push it to ECR so that it can
           # be deployed to ECS.
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --build-arg LOG_LEVEL=${{ env.LOG_LEVEL }} .
           echo "Pushing image to ECR..."
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
