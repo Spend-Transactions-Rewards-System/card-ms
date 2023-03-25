@@ -1,4 +1,7 @@
 FROM eclipse-temurin:17-jdk-focal as build
+ARG LOG_LEVEL
+ENV LOG_LEVEL ${LOG_LEVEL}
+RUN echo "DOCKER FILE ENV LOG LEVEL: $LOG_LEVEL"
 WORKDIR /usr/src/app
 COPY . /usr/src/app
 RUN ./mvnw package

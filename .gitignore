@@ -36,4 +36,6 @@ build/
 *.db
 *.newFile
 *.oldFile
-/.env
+
+## Env Variables ###
+*.env
