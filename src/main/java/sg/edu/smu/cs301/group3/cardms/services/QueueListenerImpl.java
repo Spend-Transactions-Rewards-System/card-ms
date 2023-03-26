@@ -16,7 +16,7 @@ import software.amazon.awssdk.services.sqs.model.DeleteMessageRequest;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-//@Service
+@Service
 public class QueueListenerImpl implements QueueListener {
     Logger logger = LoggerFactory.getLogger(QueueListener.class);
 
