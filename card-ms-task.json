@@ -1,0 +1,118 @@
+{
+    "taskDefinitionArn": "arn:aws:ecs:ap-southeast-1:148484133023:task-definition/card-ms:7",
+    "containerDefinitions": [
+        {
+            "name": "card-ms-container",
+            "image": "148484133023.dkr.ecr.ap-southeast-1.amazonaws.com/card-ms:LATEST",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "containerPort": 8081,
+                    "hostPort": 8081,
+                    "protocol": "tcp",
+                    "name": "card-ms-container-8081-tcp",
+                    "appProtocol": "http"
+                }
+            ],
+            "essential": true,
+            "environment": [
+                {
+                    "name": "AWS_REGION",
+                    "value": "ap-southeast-1"
+                },
+                {
+                    "name": "DB_MYSQL_USERNAME",
+                    "value": "admin"
+                },
+                {
+                    "name": "AWS_ACCESS_KEY_ID",
+                    "value": "AKIASFESYCCP557OV6CY"
+                },
+                {
+                    "name": "AWS_SECRET_ACCESS_KEY",
+                    "value": "IWOdztSiDynA6OP2hn7MhRBFEyQMnZZ1T+khP5SV"
+                },
+                {
+                    "name": "DB_MYSQL_PASSWORD",
+                    "value": "adminadmin"
+                },
+                {
+                    "name": "JPA_DDL_CONFIG",
+                    "value": "create"
+                },
+                {
+                    "name": "LOG_LEVEL",
+                    "value": "INFO"
+                },
+                {
+                    "name": "DB_MYSQL_URL",
+                    "value": "jdbc:mysql://dev-card-ms.cbckat244yaq.ap-southeast-1.rds.amazonaws.com:3306/card_db?autoReconnect=true&useSSL=false"
+                }
+            ],
+            "environmentFiles": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-create-group": "true",
+                    "awslogs-group": "/ecs/card-ms",
+                    "awslogs-region": "ap-southeast-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            }
+        }
+    ],
+    "family": "card-ms",
+    "taskRoleArn": "arn:aws:iam::148484133023:role/ECS-Role",
+    "executionRoleArn": "arn:aws:iam::148484133023:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc",
+    "revision": 7,
+    "volumes": [],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+            "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+        },
+        {
+            "name": "ecs.capability.execution-role-awslogs"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.ecr-auth"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.task-iam-role"
+        },
+        {
+            "name": "ecs.capability.execution-role-ecr-pull"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+        },
+        {
+            "name": "ecs.capability.task-eni"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
+        }
+    ],
+    "placementConstraints": [],
+    "compatibilities": [
+        "EC2",
+        "FARGATE"
+    ],
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    },
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "1024",
+    "memory": "3072",
+    "registeredAt": "2023-03-26T21:00:52.128000+08:00",
+    "registeredBy": "arn:aws:iam::148484133023:user/itsag1t3"
+}
