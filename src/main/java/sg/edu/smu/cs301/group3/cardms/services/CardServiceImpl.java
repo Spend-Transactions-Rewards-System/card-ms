@@ -1,5 +1,6 @@
 package sg.edu.smu.cs301.group3.cardms.services;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sg.edu.smu.cs301.group3.cardms.dtos.CardDto;
@@ -29,7 +30,7 @@ public class CardServiceImpl implements CardService{
             });
             return result;
         } else {
-            throw new NullPointerException("Customer not found");
+            throw new EntityNotFoundException("Customer not found");
         }
 
     }

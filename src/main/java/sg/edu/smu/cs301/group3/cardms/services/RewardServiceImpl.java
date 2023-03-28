@@ -12,6 +12,7 @@ import sg.edu.smu.cs301.group3.cardms.repositories.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -58,29 +59,34 @@ public class RewardServiceImpl implements RewardService{
     @Override
     public List<RewardDto> getCustomerEarnedRewards(String tenant, String customerId) {
 
-        //todo: implement customer not found handler
-        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new EntityNotFoundException());
+        Optional<Customer> customerObj = customerRepository.findById(customerId);
 
-        List<Reward> rewards = new ArrayList<>();
+        if (customerObj.isPresent()){
+            List<Reward> rewards = new ArrayList<>();
 
-        customer.getCards().stream().forEach(card -> {
-            if(card.getRewardType().equals(RewardType.miles))
-                rewards.addAll(milesRewardRepository.findAllByCard(card));
+            Customer customer = customerObj.get();
 
-            if(card.getRewardType().equals(RewardType.points))
-                rewards.addAll(pointsRewardRepository.findAllByCard(card));
+            customer.getCards().stream().forEach(card -> {
+                if(card.getRewardType().equals(RewardType.miles))
+                    rewards.addAll(milesRewardRepository.findAllByCard(card));
 
-            if(card.getRewardType().equals(RewardType.cashback))
-                rewards.addAll(cashbackRewardRepository.findAllByCard(card));
-        });
+                if(card.getRewardType().equals(RewardType.points))
+                    rewards.addAll(pointsRewardRepository.findAllByCard(card));
 
-        List<RewardDto> result = new ArrayList<>();
+                if(card.getRewardType().equals(RewardType.cashback))
+                    rewards.addAll(cashbackRewardRepository.findAllByCard(card));
+            });
 
-        rewards.stream().forEach(reward -> {
-            result.add(new RewardDto(reward));
-        });
+            List<RewardDto> result = new ArrayList<>();
 
-        return result;
+            rewards.stream().forEach(reward -> {
+                result.add(new RewardDto(reward));
+            });
+
+            return result;
+        } else {
+            throw new EntityNotFoundException("Customer not found");
+        }
     }
 
     @Override
