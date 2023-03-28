@@ -1,5 +1,6 @@
 package sg.edu.smu.cs301.group3.cardms.exceptions;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -16,6 +17,12 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
 
     @ExceptionHandler(NullPointerException.class)
     protected ResponseEntity<ApiError> nullPointerException(Exception e) {
+        ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, e.getMessage(),e);
+        return new ResponseEntity<>(apiError, apiError.getStatus());
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    protected ResponseEntity<ApiError> entityNotFoundException(Exception e) {
         ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, e.getMessage(),e);
         return new ResponseEntity<>(apiError, apiError.getStatus());
     }
