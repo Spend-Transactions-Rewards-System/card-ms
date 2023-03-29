@@ -114,7 +114,7 @@ public class RewardServiceTest {
 
         addRewardDtoStub = addRewardDtoStub.builder()
                 .transactionId("trans01")
-                .transactionDate(new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()))
+                .transactionDate(new Date(DateHelper.dateFormat().parse("01-03-2023").getTime()))
                 .cardId("card01")
                 .mcc(12345)
                 .merchant("Starbuck")
@@ -132,7 +132,7 @@ public class RewardServiceTest {
                         .cards(new HashSet<Card>()).build())
                 .rewardType(RewardType.miles)
                 .cardType("scis_platinummiles").build(), "Starbuck",
-                12345, Currencies.SGD, 10.0,new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()),
+                12345, Currencies.SGD, 10.0,new Date(DateHelper.dateFormat().parse("01-03-2023").getTime()),
                 20.0, 50.0, "TestRemarks", null);
 
         when(milesRewardRepository.save(any(MilesReward.class))).thenAnswer(invocationOnMock -> {
@@ -155,7 +155,7 @@ public class RewardServiceTest {
 
         addRewardDtoStub = addRewardDtoStub.builder()
                 .transactionId("trans01")
-                .transactionDate(new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()))
+                .transactionDate(new Date(DateHelper.dateFormat().parse("01-03-2023").getTime()))
                 .cardId("card02")
                 .mcc(12345)
                 .merchant("Starbuck")
@@ -173,7 +173,7 @@ public class RewardServiceTest {
                         .cards(new HashSet<Card>()).build())
                 .rewardType(RewardType.points)
                 .cardType("scis_platinummiles").build(), "Starbuck",
-                12345, Currencies.SGD, 10.0,new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()),
+                12345, Currencies.SGD, 10.0,new Date(DateHelper.dateFormat().parse("01-03-2023").getTime()),
                 20.0, 50.0, "TestRemarks", null);
 
         when(pointsRewardRepository.save(any(PointsReward.class))).thenAnswer(invocationOnMock -> {
@@ -197,7 +197,7 @@ public class RewardServiceTest {
 
         addRewardDtoStub = addRewardDtoStub.builder()
                 .transactionId("trans01")
-                .transactionDate(new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()))
+                .transactionDate(new Date(DateHelper.dateFormat().parse("01-03-2023").getTime()))
                 .cardId("card03")
                 .mcc(12345)
                 .merchant("Starbuck")
@@ -215,7 +215,7 @@ public class RewardServiceTest {
                         .cards(new HashSet<Card>()).build())
                 .rewardType(RewardType.cashback)
                 .cardType("scis_platinummiles").build(), "Starbuck",
-                12345, Currencies.SGD, 10.0,new Date(DateHelper.dateFormat().parse("01/03/2023").getTime()),
+                12345, Currencies.SGD, 10.0,new Date(DateHelper.dateFormat().parse("01-03-2023").getTime()),
                 20.0, 50.0, "TestRemarks", null);
 
         lenient().when(cashbackRewardRepository.save(any(CashbackReward.class))).thenAnswer(invocationOnMock -> {

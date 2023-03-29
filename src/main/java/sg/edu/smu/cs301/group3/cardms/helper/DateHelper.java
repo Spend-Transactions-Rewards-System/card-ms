@@ -5,6 +5,6 @@ import java.text.SimpleDateFormat;
 public class DateHelper {
 
     public static SimpleDateFormat dateFormat() {
-        return new SimpleDateFormat("dd/MM/yyyy");
+        return new SimpleDateFormat("dd-MM-yyyy");
     }
 }
