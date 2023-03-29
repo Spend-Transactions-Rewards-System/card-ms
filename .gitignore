@@ -39,3 +39,6 @@ build/
 
 ## Env Variables ###
 *.env
+
+### MacOS files ###
+.DS_Store

@@ -15,41 +15,13 @@
                 }
             ],
             "essential": true,
-            "environment": [
+            "environment": [],
+            "environmentFiles": [
                 {
-                    "name": "AWS_REGION",
-                    "value": "ap-southeast-1"
-                },
-                {
-                    "name": "DB_MYSQL_USERNAME",
-                    "value": "admin"
-                },
-                {
-                    "name": "AWS_ACCESS_KEY_ID",
-                    "value": "AKIASFESYCCP557OV6CY"
-                },
-                {
-                    "name": "AWS_SECRET_ACCESS_KEY",
-                    "value": "IWOdztSiDynA6OP2hn7MhRBFEyQMnZZ1T+khP5SV"
-                },
-                {
-                    "name": "DB_MYSQL_PASSWORD",
-                    "value": "adminadmin"
-                },
-                {
-                    "name": "JPA_DDL_CONFIG",
-                    "value": "create"
-                },
-                {
-                    "name": "LOG_LEVEL",
-                    "value": "INFO"
-                },
-                {
-                    "name": "DB_MYSQL_URL",
-                    "value": "jdbc:mysql://dev-card-ms.cbckat244yaq.ap-southeast-1.rds.amazonaws.com:3306/card_db?autoReconnect=true&useSSL=false"
+                    "value": "arn:aws:s3:::itsa-t3-ecs-environment-files/card-ms/.env",
+                    "type": "s3"
                 }
             ],
-            "environmentFiles": [],
             "mountPoints": [],
             "volumesFrom": [],
             "logConfiguration": {
