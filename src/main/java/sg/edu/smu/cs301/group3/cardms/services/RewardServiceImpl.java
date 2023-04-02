@@ -1,12 +1,17 @@
 package sg.edu.smu.cs301.group3.cardms.services;
 
+import io.awspring.cloud.sqs.operations.SqsOperations;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import sg.edu.smu.cs301.group3.cardms.dtos.AddRewardDto;
+import sg.edu.smu.cs301.group3.cardms.dtos.CampaignBonusAlertDto;
 import sg.edu.smu.cs301.group3.cardms.dtos.RewardDto;
+import sg.edu.smu.cs301.group3.cardms.helper.DateHelper;
 import sg.edu.smu.cs301.group3.cardms.models.*;
 import sg.edu.smu.cs301.group3.cardms.repositories.*;
 
@@ -30,9 +35,13 @@ public class RewardServiceImpl implements RewardService{
     private final CashbackRewardRepository cashbackRewardRepository;
 
     private final CustomerRepository customerRepository;
+
+    private final SqsOperations sqsOperations;
+
+    @Value("${aws.card.to.campaign.queue.url}")
+    private String cardToCampaignQueueUrl;
     @Override
     public RewardDto addEarnedReward(AddRewardDto addRewardDto) {
-
         //todo: implement the business logic if given cardId is not found
         Card card = cardRepository.findByCardId(addRewardDto.getCardId()).orElseThrow(() -> new EntityNotFoundException(""));
 
@@ -51,6 +60,24 @@ public class RewardServiceImpl implements RewardService{
         if (card.getRewardType().equals(RewardType.cashback)) {
             CashbackReward cashbackReward = new CashbackReward(addRewardDto, cardRepository, cashbackRewardRepository);
             savedReward = cashbackRewardRepository.save(cashbackReward);
+        }
+
+        if(savedReward.getRemarks().contains("Campaign reward")) {
+            CampaignBonusAlertDto campaignBonusAlertDto = CampaignBonusAlertDto.builder()
+                    .email(savedReward.getCard().getCustomer().getEmail())
+                    .spendDate(DateHelper.dateFormat().format(savedReward.getTransactionDate()))
+                    .merchant(savedReward.getMerchant())
+                    .cardType(savedReward.getCard().getCardType())
+                    .currency(savedReward.getCurrency().name())
+                    .amount(savedReward.getAmount())
+                    .rewardAmount(savedReward.getRewardAmount())
+                    .balance(savedReward.getBalance())
+                    .remarks(savedReward.getRemarks())
+                    .build();
+
+            logger.info("SENDING: " + campaignBonusAlertDto);
+
+            sqsOperations.send(cardToCampaignQueueUrl, MessageBuilder.withPayload(campaignBonusAlertDto).build());
         }
 
         return new RewardDto(savedReward);

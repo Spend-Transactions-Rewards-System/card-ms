@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Service;
 import sg.edu.smu.cs301.group3.cardms.dtos.AddRewardDto;
@@ -38,7 +37,7 @@ public class QueueListenerImpl implements QueueListener {
                 // call processMessage to insert record into Aurora DB
                 processMessagePayload(message.getPayload());
 
-                // retrieve message receipt handle and send message delete request when message is processed
+//                 retrieve message receipt handle and send message delete request when message is processed
                 String receiptHandle = (String) message.getHeaders().get("Sqs_ReceiptHandle");
                 DeleteMessageRequest deleteRequest = DeleteMessageRequest.builder()
                         .queueUrl(campaignToCardQueueUrl)
@@ -46,6 +45,7 @@ public class QueueListenerImpl implements QueueListener {
                         .build();
                 sqsAsyncClient.deleteMessage(deleteRequest);
             } catch (Exception e){
+                e.printStackTrace();
                 logger.error("Unable to process message" + message.getHeaders().get("Sqs_ReceiptHandle"));
             }
 

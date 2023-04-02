@@ -1,5 +1,6 @@
 package sg.edu.smu.cs301.group3.cardms.services;
 
+import io.awspring.cloud.sqs.operations.SqsTemplate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -45,11 +46,14 @@ public class RewardServiceTest {
     @Mock
     private CustomerRepository customerRepository;
 
+    @Mock
+    private SqsTemplate sqsTemplate;
+
     private RewardService rewardService;
 
     @BeforeEach
     public void setup() {
-        rewardService = new RewardServiceImpl(cardRepositoryMock, milesRewardRepository, pointsRewardRepository, cashbackRewardRepository, customerRepository);
+        rewardService = new RewardServiceImpl(cardRepositoryMock, milesRewardRepository, pointsRewardRepository, cashbackRewardRepository, customerRepository, sqsTemplate);
 
         Customer customer01 = new Customer().builder()
                 .customerId("customer01")
