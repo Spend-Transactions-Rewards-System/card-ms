@@ -42,7 +42,19 @@ public class RewardServiceImpl implements RewardService{
     private String cardToCampaignQueueUrl;
     @Override
     public RewardDto addEarnedReward(AddRewardDto addRewardDto) {
-        //todo: implement the business logic if given cardId is not found
+
+        if(isDuplicatedReward(addRewardDto, milesRewardRepository)) {
+            return null;
+        }
+
+        if(isDuplicatedReward(addRewardDto, pointsRewardRepository)) {
+            return null;
+        }
+
+        if(isDuplicatedReward(addRewardDto, cashbackRewardRepository)) {
+            return null;
+        }
+
         Card card = cardRepository.findByCardId(addRewardDto.getCardId()).orElseThrow(() -> new EntityNotFoundException(""));
 
         Reward savedReward = null;
@@ -81,6 +93,17 @@ public class RewardServiceImpl implements RewardService{
         }
 
         return new RewardDto(savedReward);
+    }
+
+    private boolean isDuplicatedReward(AddRewardDto addRewardDto, RewardRepository rewardRepository) {
+
+
+        if(!(rewardRepository.findByTenantAndTransactionIdAndRemarks(addRewardDto.getTenant(), addRewardDto.getTransactionId(), addRewardDto.getRemarks()).isEmpty())) {
+            logger.error("duplicated reward: " + addRewardDto);
+            return true;
+        }
+
+        return false;
     }
 
     @Override

@@ -16,4 +16,6 @@ public interface RewardRepository<T extends Reward, I extends Long> extends JpaR
 //    @Lock(LockModeType.PESSIMISTIC_READ)
     Optional<T> findTopByCardOrderByIdDesc(Card card);
 
+    List<T> findByTenantAndTransactionIdAndRemarks(String tenant, String transactionId, String remarks);
+
 }
