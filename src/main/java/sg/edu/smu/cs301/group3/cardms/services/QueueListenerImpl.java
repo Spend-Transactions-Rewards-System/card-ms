@@ -33,7 +33,7 @@ public class QueueListenerImpl implements QueueListener {
     private void receiveMessage(Message<AddRewardDto> message) {
             try{
                 // call processMessage to insert record into Aurora DB
-                TimeUnit.SECONDS.sleep(1);
+//                TimeUnit.SECONDS.sleep(1);
                 processMessagePayload(message.getPayload());
 
 //                 retrieve message receipt handle and send message delete request when message is processed
