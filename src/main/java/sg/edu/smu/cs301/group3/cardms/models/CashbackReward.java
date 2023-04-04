@@ -30,6 +30,7 @@ public class CashbackReward extends Reward {
     protected void updateBalance(Double previousBalance) {
         DecimalFormat df = new DecimalFormat();
         df.setMaximumFractionDigits(2);
+        df.setGroupingUsed(false);
 
         Double tempRewardAmount  =  Double.parseDouble(df.format(getRewardAmount()));
 

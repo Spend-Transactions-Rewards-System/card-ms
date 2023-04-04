@@ -24,36 +24,31 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class RewardServiceImpl implements RewardService{
-
-    Logger logger = LoggerFactory.getLogger(RewardServiceImpl.class);
+public class RewardServiceImpl implements RewardService {
 
     private final CardRepository cardRepository;
     private final MilesRewardRepository milesRewardRepository;
-
     private final PointsRewardRepository pointsRewardRepository;
-
     private final CashbackRewardRepository cashbackRewardRepository;
-
     private final CustomerRepository customerRepository;
-
     private final SqsOperations sqsOperations;
-
+    Logger logger = LoggerFactory.getLogger(RewardServiceImpl.class);
     @Value("${aws.card.to.campaign.queue.url}")
     private String cardToCampaignQueueUrl;
+
     @Transactional
     @Override
     public RewardDto addEarnedReward(AddRewardDto addRewardDto) {
 
-        if(isDuplicatedReward(addRewardDto, milesRewardRepository)) {
+        if (isDuplicatedReward(addRewardDto, milesRewardRepository)) {
             return null;
         }
 
-        if(isDuplicatedReward(addRewardDto, pointsRewardRepository)) {
+        if (isDuplicatedReward(addRewardDto, pointsRewardRepository)) {
             return null;
         }
 
-        if(isDuplicatedReward(addRewardDto, cashbackRewardRepository)) {
+        if (isDuplicatedReward(addRewardDto, cashbackRewardRepository)) {
             return null;
         }
 
@@ -76,7 +71,7 @@ public class RewardServiceImpl implements RewardService{
             savedReward = cashbackRewardRepository.save(cashbackReward);
         }
 
-        if(savedReward.getRemarks().contains("Campaign reward")) {
+        if (savedReward.getRemarks().contains("Campaign reward")) {
             CampaignBonusAlertDto campaignBonusAlertDto = CampaignBonusAlertDto.builder()
                     .email(savedReward.getCard().getCustomer().getEmail())
                     .spendDate(DateHelper.dateFormat().format(savedReward.getTransactionDate()))
@@ -100,7 +95,7 @@ public class RewardServiceImpl implements RewardService{
     private boolean isDuplicatedReward(AddRewardDto addRewardDto, RewardRepository rewardRepository) {
 
 
-        if(!(rewardRepository.findByTenantAndTransactionIdAndRemarks(addRewardDto.getTenant(), addRewardDto.getTransactionId(), addRewardDto.getRemarks()).isEmpty())) {
+        if (!(rewardRepository.findByTenantAndTransactionIdAndRemarks(addRewardDto.getTenant(), addRewardDto.getTransactionId(), addRewardDto.getRemarks()).isEmpty())) {
             logger.error("duplicated reward: " + addRewardDto);
             return true;
         }
@@ -113,19 +108,19 @@ public class RewardServiceImpl implements RewardService{
 
         Optional<Customer> customerObj = customerRepository.findById(customerId);
 
-        if (customerObj.isPresent()){
+        if (customerObj.isPresent()) {
             List<Reward> rewards = new ArrayList<>();
 
             Customer customer = customerObj.get();
 
             customer.getCards().stream().forEach(card -> {
-                if(card.getRewardType().equals(RewardType.miles))
+                if (card.getRewardType().equals(RewardType.miles))
                     rewards.addAll(milesRewardRepository.findAllByCard(card));
 
-                if(card.getRewardType().equals(RewardType.points))
+                if (card.getRewardType().equals(RewardType.points))
                     rewards.addAll(pointsRewardRepository.findAllByCard(card));
 
-                if(card.getRewardType().equals(RewardType.cashback))
+                if (card.getRewardType().equals(RewardType.cashback))
                     rewards.addAll(cashbackRewardRepository.findAllByCard(card));
             });
 
@@ -134,7 +129,7 @@ public class RewardServiceImpl implements RewardService{
             rewards.stream().forEach(reward -> {
                 result.add(new RewardDto(reward));
             });
-
+            
             return result;
         } else {
             throw new EntityNotFoundException("Customer not found");
@@ -154,13 +149,13 @@ public class RewardServiceImpl implements RewardService{
         //todo: implement if no card is found handler
         Card card = cardSet.iterator().next();
 
-        if(card.getRewardType().equals(RewardType.miles))
+        if (card.getRewardType().equals(RewardType.miles))
             rewards.addAll(milesRewardRepository.findAllByCard(card));
 
-        if(card.getRewardType().equals(RewardType.points))
+        if (card.getRewardType().equals(RewardType.points))
             rewards.addAll(pointsRewardRepository.findAllByCard(card));
 
-        if(card.getRewardType().equals(RewardType.cashback))
+        if (card.getRewardType().equals(RewardType.cashback))
             rewards.addAll(cashbackRewardRepository.findAllByCard(card));
 
         List<RewardDto> result = new ArrayList<>();

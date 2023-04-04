@@ -29,6 +29,7 @@ public class PointsReward extends Reward {
     protected void updateBalance(Double previousBalance) {
         DecimalFormat df = new DecimalFormat();
         df.setMaximumFractionDigits(0);
+        df.setGroupingUsed(false);
 
         Double tempRewardAmount  =  Double.parseDouble(df.format(getRewardAmount()));
 
