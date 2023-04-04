@@ -19,4 +19,6 @@ public interface RewardRepository<T extends Reward, I extends Long> extends JpaR
 
     Optional<T> findTopByCustomerOrderByIdDesc(Customer customer);
 
+    List<T> findByTenantAndTransactionIdAndRemarks(String tenant, String transactionId, String remarks);
+
 }
