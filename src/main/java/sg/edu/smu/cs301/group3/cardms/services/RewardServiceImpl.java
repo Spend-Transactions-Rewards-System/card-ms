@@ -36,7 +36,7 @@ public class RewardServiceImpl implements RewardService {
     @Value("${aws.card.to.campaign.queue.url}")
     private String cardToCampaignQueueUrl;
 
-    @Transactional
+//    @Transactional
     @Override
     public RewardDto addEarnedReward(AddRewardDto addRewardDto) {
 
@@ -129,7 +129,7 @@ public class RewardServiceImpl implements RewardService {
             rewards.stream().forEach(reward -> {
                 result.add(new RewardDto(reward));
             });
-            
+
             return result;
         } else {
             throw new EntityNotFoundException("Customer not found");
