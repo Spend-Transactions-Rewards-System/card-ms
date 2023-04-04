@@ -9,6 +9,7 @@ import sg.edu.smu.cs301.group3.cardms.repositories.PointsRewardRepository;
 import sg.edu.smu.cs301.group3.cardms.repositories.RewardRepository;
 
 import java.sql.Date;
+import java.text.DecimalFormat;
 
 @NoArgsConstructor
 @Entity
@@ -22,6 +23,18 @@ public class PointsReward extends Reward {
 
     public PointsReward(AddRewardDto addRewardDto, CardRepository cardRepository, RewardRepository rewardRepository) {
         super(addRewardDto, cardRepository, rewardRepository);
+    }
+
+    @Override
+    protected void updateBalance(Double previousBalance) {
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(0);
+
+        Double tempRewardAmount  =  Double.parseDouble(df.format(getRewardAmount()));
+
+        this.setRewardAmount(tempRewardAmount);
+
+        this.setBalance(previousBalance + tempRewardAmount);
     }
 
 }

@@ -45,7 +45,7 @@ public class RewardDto {
         this.description = reward.getMerchant();
         this.type = TransactionType.Earn.name();
         this.change = reward.getRewardAmount();
-        this.balance = reward.getBalance();
+        this.balance = Math.round(reward.getBalance() * 100.0) /100.0;
         this.card = reward.getCard().getCardType();
         this.remarks = reward.getRemarks();
         this.rewardType = reward.getCard().getRewardType();

@@ -78,8 +78,5 @@ public abstract class Reward {
         this.setCustomer(card.getCustomer());
     }
 
-    private void updateBalance(Double previousBalance) {
-        this.setBalance(previousBalance + this.getRewardAmount());
-    }
-
+    protected abstract void updateBalance(Double previousBalance);
 }

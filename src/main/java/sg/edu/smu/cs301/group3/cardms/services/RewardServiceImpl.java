@@ -2,6 +2,7 @@ package sg.edu.smu.cs301.group3.cardms.services;
 
 import io.awspring.cloud.sqs.operations.SqsOperations;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +41,7 @@ public class RewardServiceImpl implements RewardService{
 
     @Value("${aws.card.to.campaign.queue.url}")
     private String cardToCampaignQueueUrl;
+    @Transactional
     @Override
     public RewardDto addEarnedReward(AddRewardDto addRewardDto) {
 

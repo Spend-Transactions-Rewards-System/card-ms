@@ -28,11 +28,8 @@ public class QueueListenerImpl implements QueueListener {
     @Autowired
     SqsAsyncClient sqsAsyncClient;
 
-    private final ExecutorService executorService = Executors.newFixedThreadPool(3);
-
     @SqsListener(value = "${aws.campaign.to.card.queue}")
     private void receiveMessage(Message<AddRewardDto> message) {
-        executorService.submit(() -> {
             try{
                 // call processMessage to insert record into Aurora DB
                 processMessagePayload(message.getPayload());
@@ -48,8 +45,6 @@ public class QueueListenerImpl implements QueueListener {
                 e.printStackTrace();
                 logger.error("Unable to process message" + message.getHeaders().get("Sqs_ReceiptHandle"));
             }
-
-        });
     }
 
     private void processMessagePayload(AddRewardDto payload){
