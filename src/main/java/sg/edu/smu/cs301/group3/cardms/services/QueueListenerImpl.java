@@ -14,6 +14,7 @@ import software.amazon.awssdk.services.sqs.model.DeleteMessageRequest;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class QueueListenerImpl implements QueueListener {
@@ -32,6 +33,7 @@ public class QueueListenerImpl implements QueueListener {
     private void receiveMessage(Message<AddRewardDto> message) {
             try{
                 // call processMessage to insert record into Aurora DB
+                TimeUnit.SECONDS.sleep(1);
                 processMessagePayload(message.getPayload());
 
 //                 retrieve message receipt handle and send message delete request when message is processed

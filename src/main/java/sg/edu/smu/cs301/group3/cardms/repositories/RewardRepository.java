@@ -14,9 +14,9 @@ import java.util.Optional;
 public interface RewardRepository<T extends Reward, I extends Long> extends JpaRepository<T, I> {
 
     List<T> findAllByCard(Card card);
-//    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
     Optional<T> findTopByCardOrderByIdDesc(Card card);
-//    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
     Optional<T> findTopByCustomerOrderByIdDesc(Customer customer);
 
     List<T> findByTenantAndTransactionIdAndRemarks(String tenant, String transactionId, String remarks);
