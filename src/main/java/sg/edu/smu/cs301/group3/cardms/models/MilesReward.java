@@ -17,8 +17,8 @@ import java.sql.Date;
 public class MilesReward extends Reward {
 
 
-    public MilesReward(String tenant, Long id, String transactionId, Card card, String merchant, Integer mcc, Currencies currency, Double amount, Date transactionDate, Double rewardAmount, Double balance, String remarks, Long previousMilesReward) {
-        super(tenant, id, transactionId, card, merchant, mcc, currency, amount, transactionDate, rewardAmount, balance, remarks, previousMilesReward );
+    public MilesReward(String tenant, Long id, String transactionId, Card card, String merchant, Integer mcc, Currencies currency, Double amount, Date transactionDate, Double rewardAmount, Double balance, String remarks, Long previousMilesReward, Customer customer) {
+        super(tenant, id, transactionId, card, merchant, mcc, currency, amount, transactionDate, rewardAmount, balance, remarks, previousMilesReward, customer);
     }
 
     public MilesReward(AddRewardDto addRewardDto, CardRepository cardRepository, RewardRepository rewardRepository) {

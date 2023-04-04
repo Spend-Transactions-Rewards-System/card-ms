@@ -54,13 +54,18 @@ public abstract class Reward {
     private String remarks;
 
     private Long previousTransaction;
+
+    @ManyToOne
+    private Customer customer;
     public Reward(AddRewardDto addRewardDto, CardRepository cardRepository, RewardRepository rewardRepository) {
 
         this(addRewardDto.getTenant(), null, addRewardDto.getTransactionId(), null, addRewardDto.getMerchant(), addRewardDto.getMcc(), addRewardDto.getCurrency(), addRewardDto.getAmount(),
-                addRewardDto.getTransactionDate(), addRewardDto.getRewardAmount(), 0.0, addRewardDto.getRemarks(), null);
+                addRewardDto.getTransactionDate(), addRewardDto.getRewardAmount(), 0.0, addRewardDto.getRemarks(), null, null);
 
         Card card = cardRepository.findByCardId(addRewardDto.getCardId()).get();
-        Reward previousReward = (Reward) rewardRepository.findTopByCardOrderByIdDesc(card).orElseGet(() -> null);
+
+//        Reward previousReward = (Reward) rewardRepository.findTopByCardOrderByIdDesc(card).orElseGet(() -> null);
+        Reward previousReward = (Reward) rewardRepository.findTopByCustomerOrderByIdDesc(card.getCustomer()).orElseGet(() -> null);
 
         if(previousReward == null) {
             updateBalance(0.0);
